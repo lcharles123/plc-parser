@@ -30,6 +30,6 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 
 %%
 
-(*basta colocar as regras de producao aqui usando os simbolos representados pelos tokens definidos no bloco acima*)
+(*basta colocar as regras de producao aqui com simbolos representados pelos tokens definidos no bloco acima*)
 
 

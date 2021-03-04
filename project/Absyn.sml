@@ -1,5 +1,5 @@
-(*Absyn*)
-
+(*Absyn , sintaxe abstrata*)
+(* estruturas para representar os tokens gerados a partir da sintaxe concreta (codigo fonte)*)
 datatype plcType =
    IntT
   | BoolT

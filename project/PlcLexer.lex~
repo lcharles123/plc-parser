@@ -38,10 +38,9 @@ identificadores=[a-zA-Z][a-zA-Z_0-9]*;
 
 
 %%
-(*casamento de padroes para tratamento dos simbolos da entrada e producao dos tokens definidos na segunda secao do .yacc*)
+(*casamento de padroes para tratamento dos simbolos da entrada, eles devem produzir tokens definidos no arquivo .yacc*)
 
-(*ex.
-case 'token' of 't1' => T1 | 't2' => T2 *)
+
 
 
 
