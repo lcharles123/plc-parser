@@ -4,7 +4,8 @@
 
 %pos int
 
-(* tokens que para representar todos os simbolos terminais, ie. tudo que nao esta dentro de < > nas regras da GLC *)
+(* tokens que para representar todos os simbolos terminais, 
+ie. tudo que nao esta dentro de < > nas regras da GLC usando absyn.sml como estrutura *)
 %term TEST | EOF
 
 (* tokens para os simbolos nao terminais, tudo dentro de < > , 

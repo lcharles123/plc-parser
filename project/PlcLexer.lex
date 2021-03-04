@@ -20,7 +20,46 @@ fun getLineAsString() =
         Int.toString lineNum
     end
 
-(* Define what to do when the end of the file is reached. *)
+
+(*checar se eh keyword, tipos estao definidos nas secoes dos tokens terminais ou nao em .yacc*)
+(*lista:
+
+Bool else end false fn fun hd if Int ise
+match Nil print rec then tl true var with __
+
+*)
+fun isKeyword(str, lpos, rpos)=
+    case str of
+    "Bool" => BOOL()
+    "else" => ELSE
+    "end" => END
+    "false" => FALSE
+    "fn" => ANONFUN
+    "fun" => FUN
+    "hd" => HEAD
+    "if" => IF
+    "Int" => INT
+    "ise" => ISEMPTY
+    "match" => MATCH
+    "Nil" => NULL
+    "print" => PRINT
+    "rec" => RECUR
+    "then" => THEN
+    "tl" => TAIL
+    "true" => TRUE
+    "var" => VAR
+    "with" => WITH
+    "__" => UNDER
+    _ => NAME(str, lpos, rpos)
+    
+
+
+
+
+
+
+
+(* Define what to do when the end of the file is reached. Versao sem coments *)
 fun eof () = Tokens.EOF(0,0)
 
 (* Initialize the lexer. *)
@@ -33,7 +72,7 @@ fun init() = ()
 alfanumerico=[a-zA-Z];
 digito=[0-9];
 espaco=[\ \t];
-identificadores=[a-zA-Z][a-zA-Z_0-9]*;
+identificador=[a-zA-Z][a-zA-Z_0-9]*;
 
 
 
@@ -42,12 +81,49 @@ identificadores=[a-zA-Z][a-zA-Z_0-9]*;
 
 (*ex.
 case 'token' of 't1' => T1 | 't2' => T2 *)
+(*se vier um simbolo => faca alguma coisa; retorne uma acao*)
+\n => (lineNumber := !lineNumber + 1; lex());
+(*pelo menos um espaco => ignorar e continuar lendo*)
+{espaco}+ => (lex());
+(*se vier um numero composto de 1 ou mais digitos => transformar em token CINT(numberVar)*)
+(*esses tokens sao tipos de dados definidos na secao de simbolos terminais em .yacc *)
+(*pode-se usar funcoes implementadas na secao acima*)
+(*yypos: posicao no texto do arquivo fonte*)
+{digito}+ => (CINT(strToInt(yytext), yypos, yypos ));
+(*se vier uma palavra qualquer, checar se eh keyword, retornando o construtor correto*)
+{identificador} => (isKeyword(yytext, yypos, yypos));
 
+(*aqui temos o casamento com os simbolos terminais da gramatica*)
+"|" => (PIPE(yypos, yypos));
+":" => (DOISPONTOS(yypos, yypos));
 
+(*<expr>::=*)
+"!" => (EXCL(yypos, yypos));
+"-" => (MINUS(yypos, yypos));
+"+" => (PLUS(yypos, yypos));
+"*" => (MUL(yypos, yypos));
+"/" => (DIV(yypos, yypos));
+"=" => (EQ(yypos, yypos));
+"!=" => (DIF(yypos, yypos));
+"<" => (MENOR(yypos, yypos));
+"<=" => (MENOREQ(yypos, yypos));
+"::" => (QUAPONTOS(yypos, yypos));
+";" => (PONTVIRG(yypos, yypos));
+"#" => (SHARP(yypos, yypos));
 
+(*delimitadores*)
+"{" => (ESQCHAVE(yypos, yypos));
+"}" => (DIRCHAVE(yypos, yypos));
+"(" => (ESQPAR(yypos, yypos));
+")" => (DIRPAR(yypos, yypos));
+"[" => (ESQCOL(yypos, yypos));
+"]" => (DIRCOL(yypos, yypos));
+"=>" => (PRODUZ(yypos, yypos));
+"," => (VIRGULA(yypos, yypos));
+(*type*)
+"->" => (TPRODUZ(yypos, yypos));
 
-
-
+. => (error("\n***Lexer error: bad simbol***\n"); raise Fail("Lexer: fail at "^yytext) );
 
 
 
