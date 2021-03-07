@@ -39,7 +39,7 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
     | Const of expr
     | Comps of expr list
     | MatchExpr of (expr option * expr) list
-    | CondExpr of (*DUVIDA*)
+    | CondExpr of expr option
     | Args of (plcType * string) list
     | Params of (plcType * string) list
     | TypedVar of plcType * string
@@ -133,9 +133,16 @@ Comps : Expr VIRGULA Expr ([Expr1, Expr2]) (*retornar uma lista com as 2 express
 MatchExpr : END ([]) (*Lista Vazia*)
     | PIPE CondExpr TPRODUZ Expr MatchExpr ([CondExpr, Expr] @ MatchExpr) (*Lista contendo CondExpr e Expr concatenada com outras possiveis MatchExpr*)
 
-(*Tipo - DUVIDA*)
-CondExpr : Expr ()
-    | UNDER ()
+
+(*ENTENDENDO TIPO option:
+datatype 'a option = NONE | SOME of 'a
+The type option provides a distinction between some value and no value,
+and is often used for representing the result of partially defined functions.
+It can be viewed as a typed version of the C convention of returning a NULL 
+pointer to indicate no value.*)
+(*Tipo - expr option*)
+CondExpr : Expr (SOME Expr)
+    | UNDER (NONE)
 
 Args : ESQPAR DIRPAR () 
     | ESQPAR Params DIRPAR ()
