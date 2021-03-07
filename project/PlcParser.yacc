@@ -35,14 +35,20 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 
 
 (*regras de associatividade*)
-%right PONTVIRG 
+(*Regras definidas de acordo com a subseção 3.3 da descrição do TP*)
+%right PONTVIRG
+%nonassoc IF
+%left ELSE
+%left AND
 %left EQ DIF
 %left MENOR MENOREQ
-%left QUAPONTOS
-%left MINUS PLUS DIV MUL
+%right QUAPONTOS
+%left MINUS PLUS
+%left DIV MUL
+%nonassoc EXCL HEAD TAIL ISEMPTY PRINT NAME
 %left ESQCOL
-(*%nonassoc NOT HD TL ISE PRINT NAME*)
-(*%nonassoc IF*)
+
+
 
 
 (*retornar o %term EOF ao endontrar o fim do fluxo*)
