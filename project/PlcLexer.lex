@@ -110,6 +110,7 @@ case 'token' of 't1' => T1 | 't2' => T2 *)
 "::" => (QUAPONTOS(yypos, yypos));
 ";" => (PONTVIRG(yypos, yypos));
 "#" => (SHARP(yypos, yypos));
+"&&" => (AND(yypos, yypos));
 
 (*delimitadores*)
 "{" => (ESQCHAVE(yypos, yypos));

@@ -22,10 +22,10 @@ ie. tudo que nao esta dentro de < > nas regras da GLC usando absyn.sml como estr
     ANONFUN | END
     TAIL | HEAD | 
     ISEMPTY |
-    PRINT |
-    WITH |
-    MATCH |
-    NAME of string
+    PRINT | 
+    EXCL |
+    MATCH | WITH |
+    NAME of string | CINT of  int
     EOF
 
 (* tokens para os simbolos nao terminais, tudo dentro de < > , 
@@ -62,6 +62,81 @@ Prog : Expr (Expr)
     |  Dec1 PONTVIRG Prog () (*Criar funcao de tratamento*)
 
 Dec1 : VAR NAME EQ Expr ()
-    |  FUN 
+    |  FUN NAME Args EQ Expr ()
+    |  FUN RECUR NAME Args DOISPONTOS EQ Expr ()
+
+Expr : AtomicExpr ()
+    |  AppExpr ()
+    |  IF Expr THEN Expr ELSE Expr ()
+    |  MATCH Expr WITH Expr ()
+    |  EXCL Expr ()
+    |  MINUS Expr ()
+    |  HEAD Expr ()
+    |  TAIL Expr ()
+    |  ISEMPTY Expr ()
+    |  PRINT Expr ()
+    |  Expr AND Expr ()
+    |  Expr PLUS Expr ()
+    |  Expr MINUS Expr ()
+    |  Expr MUL Expr ()
+    |  Expr DIV Expr ()
+    |  Expr EQ Expr ()
+    |  Expr DIF Expr ()
+    |  Expr MENOR Expr ()
+    |  Expr QUAPONTOS Expr ()
+    |  Expr PONTVIRG Expr ()
+    |  Expr ESQCOL CINT DIRCOL ()
+
+AtomicExpr : Const ()
+    | NAME ()
+    | ESQCHAVE Prog DIRCHAVE ()
+    | ESQPAR Expr DIRPAR ()
+    | ESQPAR Comps DIRPAR ()
+    | ANONFUN Args PRODUZ Expr END ()
+
+AppExpr : AtomicExpr AtomicExpr ()
+    | AppExpr AtomicExpr ()
+
+Const : TRUE ()
+    | FALSE ()
+    | CINT ()
+    | ESQPAR DIRPAR ()
+    | ESQPAR Type ESQCOL DIRCOL DIRPAR ()
+
+Comps :  Expr VIRGULA Expr ()
+    | Expr VIRGULA Comps ()
+
+MatchExpr : END ()
+    | PIPE CondExpr TPRODUZ Expr MatchExpr ()
+
+CondExpr : Expr ()
+    | UNDER ()
+
+Args : ESQPAR DIRPAR () 
+    | ESQPAR Params DIRPAR ()
+
+Params : TypedVar ()
+    | TypedVar VIRGULA Params ()
+
+TypedVar : Type NAME ()
+
+Type : AtomicType ()
+    | ESQPAR Types DIRPAR ()
+    | ESQCOL Type DIRCOL ()
+    | Type TPRODUZ Type ()
+
+AtomicType : NULL ()
+    | BOOL ()
+    | INT ()
+    | ESQPAR Type DIRPAR ()
+
+Types: Type VIRGULA Type ()
+    | Type VIRGULA Types ()
+
+
+
+
+
+
 
 
