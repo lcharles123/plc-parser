@@ -125,12 +125,15 @@ Const : TRUE (ConB true)
     | ESQPAR DIRPAR (List []) (*nil value - Lista vazia*)
     | ESQPAR Type ESQCOL DIRCOL DIRPAR (ESeq Type) (*type-annotated empty sequence*)
 
-Comps :  Expr VIRGULA Expr ()
-    | Expr VIRGULA Comps ()
+(*Tipo expr list*)
+Comps : Expr VIRGULA Expr ([Expr1, Expr2]) (*retornar uma lista com as 2 expressões*)
+    | Expr VIRGULA Comps ([Expr]@Comps) (* cria uma lista c/ Expr e concatena-se a lista Expr com a Comps*)
 
-MatchExpr : END ()
-    | PIPE CondExpr TPRODUZ Expr MatchExpr ()
+(*Tipo (expr option * expr) list*)
+MatchExpr : END ([]) (*Lista Vazia*)
+    | PIPE CondExpr TPRODUZ Expr MatchExpr ([CondExpr, Expr] @ MatchExpr) (*Lista contendo CondExpr e Expr concatenada com outras possiveis MatchExpr*)
 
+(*Tipo - DUVIDA*)
 CondExpr : Expr ()
     | UNDER ()
 
