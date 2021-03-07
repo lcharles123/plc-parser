@@ -144,13 +144,13 @@ pointer to indicate no value.*)
 CondExpr : Expr (SOME Expr)
     | UNDER (NONE)
 
-Args : ESQPAR DIRPAR () 
-    | ESQPAR Params DIRPAR ()
+Args : ESQPAR DIRPAR ([]) (*Retornar lista vazia - Sem params*) 
+    | ESQPAR Params DIRPAR (Params) (*Retornar Params - obs: Params já é uma lista*)
 
-Params : TypedVar ()
-    | TypedVar VIRGULA Params ()
+Params : TypedVar ([TypedVar]) (*Lista com um unico parâmetro*)
+    | TypedVar VIRGULA Params ([TypedVar]@Params)(*Lista de TypedVar concatena c/ os outros params.*)
 
-TypedVar : Type NAME ()
+TypedVar : Type NAME ((Type, Name)) (*Basta retornar uma tupla com o tipo do param e o nome dele como indicado na seção 3.1*)
 
 Type : AtomicType ()
     | ESQPAR Types DIRPAR ()
