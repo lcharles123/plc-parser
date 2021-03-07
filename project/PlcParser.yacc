@@ -32,7 +32,20 @@ ie. tudo que nao esta dentro de < > nas regras da GLC usando absyn.sml como estr
 aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme definido em datatypes no arquivo Absyn.sml *)
 
 %nonterm Prog of expr
-
+    | Dec1 of (*DUVIDA*)
+    | Expr of expr
+    | AtomicExpr of expr
+    | AppExpr of expr
+    | Const of expr
+    | Comps of expr list
+    | MatchExpr of (*DUVIDA*)
+    | CondExpr of (*DUVIDA*)
+    | Args of (plcType * string) list (*Mesmo tipo de Params*)
+    | Params of (plcType * string) list
+    | TypedVar of plcType * string
+    | Type of plcType
+    | AtomicType of plcType
+    | Types of plcType list
 
 (*regras de associatividade*)
 (*Regras definidas de acordo com a subseção 3.3 da descrição do TP*)
@@ -47,8 +60,6 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 %left DIV MUL
 %nonassoc EXCL HEAD TAIL ISEMPTY PRINT NAME
 %left ESQCOL
-
-
 
 
 (*retornar o %term EOF ao endontrar o fim do fluxo*)
