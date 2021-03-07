@@ -38,9 +38,9 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
     | AppExpr of expr
     | Const of expr
     | Comps of expr list
-    | MatchExpr of (*DUVIDA*)
+    | MatchExpr of (expr option * expr) list
     | CondExpr of (*DUVIDA*)
-    | Args of (plcType * string) list (*Mesmo tipo de Params*)
+    | Args of (plcType * string) list
     | Params of (plcType * string) list
     | TypedVar of plcType * string
     | Type of plcType
@@ -74,7 +74,7 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 
 (*basta colocar as regras de producao aqui usando os simbolos representados pelos tokens definidos no bloco acima*)
 (*Regras de Produção especificadas na subseção 3.1 da especificação do TP*)
-
+(*Para o preenchimento deve-se observar os datatypes descritos em Absyn.sml*)
 Prog : Expr (Expr)
     |  Dec1 PONTVIRG Prog () (*Criar funcao de tratamento*)
 
@@ -82,27 +82,28 @@ Dec1 : VAR NAME EQ Expr ()
     |  FUN NAME Args EQ Expr ()
     |  FUN RECUR NAME Args DOISPONTOS EQ Expr ()
 
-Expr : AtomicExpr ()
-    |  AppExpr ()
-    |  IF Expr THEN Expr ELSE Expr ()
-    |  MATCH Expr WITH Expr ()
-    |  EXCL Expr ()
-    |  MINUS Expr ()
-    |  HEAD Expr ()
-    |  TAIL Expr ()
-    |  ISEMPTY Expr ()
-    |  PRINT Expr ()
-    |  Expr AND Expr ()
-    |  Expr PLUS Expr ()
-    |  Expr MINUS Expr ()
-    |  Expr MUL Expr ()
-    |  Expr DIV Expr ()
-    |  Expr EQ Expr ()
-    |  Expr DIF Expr ()
-    |  Expr MENOR Expr ()
-    |  Expr QUAPONTOS Expr ()
-    |  Expr PONTVIRG Expr ()
-    |  Expr ESQCOL CINT DIRCOL ()
+Expr : AtomicExpr (AtomicExpr)
+    |  AppExpr (AppExpr)
+    |  IF Expr THEN Expr ELSE Expr (If(Expr1, Expr2, Expr3))
+    |  MATCH Expr WITH MatchExpr (Match(Expr, MatchExpr))
+    |  EXCL Expr (Prim1("!", Expr)) (*Todas as chamadas de Prim1 devem passar o str que representa a op (seção 3.1) + Expr*)
+    |  MINUS Expr (Prim1("-", Expr))
+    |  HEAD Expr (Prim1("hd", Expr))
+    |  TAIL Expr (Prim1("tl", Expr))
+    |  ISEMPTY Expr (Prim1("ise", Expr))
+    |  PRINT Expr (Prim1("print", Expr))
+    |  Expr AND Expr (Prim2("&&", Expr1, Expr2))
+    |  Expr PLUS Expr (Prim2("+", Expr1, Expr2))
+    |  Expr MINUS Expr (Prim2("-", Expr1, Expr2))
+    |  Expr MUL Expr (Prim2("*", Expr1, Expr2))
+    |  Expr DIV Expr (Prim2("/", Expr1, Expr2))
+    |  Expr EQ Expr (Prim2("=", Expr1, Expr2))
+    |  Expr DIF Expr (Prim2("!=", Expr1, Expr2))
+    |  Expr MENOR Expr (Prim2("<", Expr1, Expr2))
+    |  Expr MENOREQ Expr (Prim2("<=", Expr1, Expr2))
+    |  Expr QUAPONTOS Expr (Prim2("::", Expr1, Expr2))
+    |  Expr PONTVIRG Expr (Prim2(";", Expr1, Expr2))
+    |  Expr ESQCOL CINT DIRCOL (Item(CINT, Expr))
 
 AtomicExpr : Const ()
     | NAME ()
