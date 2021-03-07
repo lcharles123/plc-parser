@@ -6,27 +6,27 @@
 
 (* tokens que para representar todos os simbolos terminais, 
 ie. tudo que nao esta dentro de < > nas regras da GLC usando absyn.sml como estrutura *)
-%term VAR |
-    FUN | RECUR
-    MINUS | PLUS | MUL | DIV |
-    EQ | DIF | MENOR | MENOREQ |
-    QUAPONTOS | PONTVIRG | SHARP | UNDER |
-    ESQCHAVE | DIRCHAVE |
-    ESQPAR | DIRPAR |
-    ESQCOL | DIRCOL |
-    PRODUZ | TPRODUZ |
-    VIRGULA |
-    IF | THEN | ELSE |
-    INT | NULL | BOOL |
-    TRUE | FALSE |
-    ANONFUN | END
-    TAIL | HEAD | 
-    ISEMPTY |
-    PRINT | 
-    EXCL |
-    MATCH | WITH |
-    NAME of string | CINT of  int
-    EOF
+%term VAR 
+    | FUN | RECUR
+    | MINUS | PLUS | MUL | DIV 
+    | EQ | DIF | MENOR | MENOREQ 
+    | QUAPONTOS | PONTVIRG | SHARP | UNDER 
+    | ESQCHAVE | DIRCHAVE 
+    | ESQPAR | DIRPAR 
+    | ESQCOL | DIRCOL 
+    | PRODUZ | TPRODUZ 
+    | VIRGULA |
+    | IF | THEN | ELSE 
+    | INT | NULL | BOOL 
+    | TRUE | FALSE 
+    | ANONFUN | END
+    | TAIL | HEAD  
+    | ISEMPTY 
+    | PRINT  
+    | EXCL 
+    | MATCH | WITH 
+    | NAME of string | CINT of  int
+    | EOF
 
 (* tokens para os simbolos nao terminais, tudo dentro de < > , 
 aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme definido em datatypes no arquivo Absyn.sml *)
@@ -82,6 +82,7 @@ Dec1 : VAR NAME EQ Expr ()
     |  FUN NAME Args EQ Expr ()
     |  FUN RECUR NAME Args DOISPONTOS EQ Expr ()
 
+(*Tipo expr*)
 Expr : AtomicExpr (AtomicExpr)
     |  AppExpr (AppExpr)
     |  IF Expr THEN Expr ELSE Expr (If(Expr1, Expr2, Expr3))
@@ -105,21 +106,24 @@ Expr : AtomicExpr (AtomicExpr)
     |  Expr PONTVIRG Expr (Prim2(";", Expr1, Expr2))
     |  Expr ESQCOL CINT DIRCOL (Item(CINT, Expr))
 
-AtomicExpr : Const ()
-    | NAME ()
-    | ESQCHAVE Prog DIRCHAVE ()
-    | ESQPAR Expr DIRPAR ()
-    | ESQPAR Comps DIRPAR ()
-    | ANONFUN Args PRODUZ Expr END ()
+(*Tipo expr*)
+AtomicExpr : Const (Const)
+    | NAME (Var NAME)
+    | ESQCHAVE Prog DIRCHAVE (Prog) (*Basta retornar o que esta dentro da chave/parentesis*)
+    | ESQPAR Expr DIRPAR (Expr)
+    | ESQPAR Comps DIRPAR (List Comps) (*list*)
+    | ANONFUN Args PRODUZ Expr END (makeAnon(Args, Expr)) (* makeAnon (PlcParserAux) Create a Anonymus function expression. *)
 
-AppExpr : AtomicExpr AtomicExpr ()
-    | AppExpr AtomicExpr ()
+(*Function application - tipo expr*)
+AppExpr : AtomicExpr AtomicExpr (Call(AtomicExpr1, AtomicExpr2)) (*AtomicExpr tem que ser do tipo expr*)
+    | AppExpr AtomicExpr ((Call(AppExpr, AtomicExpr))) (*AppExpr tem que ser do tipo expr*)
 
-Const : TRUE ()
-    | FALSE ()
-    | CINT ()
-    | ESQPAR DIRPAR ()
-    | ESQPAR Type ESQCOL DIRCOL DIRPAR ()
+(*Tipo expr*)
+Const : TRUE (ConB true)
+    | FALSE (ConB false)
+    | CINT (ConI CINT)
+    | ESQPAR DIRPAR (List []) (*nil value - Lista vazia*)
+    | ESQPAR Type ESQCOL DIRCOL DIRPAR (ESeq Type) (*type-annotated empty sequence*)
 
 Comps :  Expr VIRGULA Expr ()
     | Expr VIRGULA Comps ()
