@@ -77,11 +77,11 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 (*Regras de Produção especificadas na subseção 3.1 da especificação do TP*)
 (*Para o preenchimento deve-se observar os datatypes descritos em Absyn.sml*)
 Prog : Expr (Expr)
-    |  Dec1 PONTVIRG Prog (expr) (*Criar funcao de tratamento*)
+    |  Dec1 (Dec1) (*Criar funcao de tratamento*)
 
-Dec1 : VAR NAME EQ Expr ()
-    |  FUN NAME Args EQ Expr ()
-    |  FUN RECUR NAME Args DOISPONTOS EQ Expr ()
+Dec1 : VAR NAME EQ Expr PONTVIRG Prog (Let(NAME, Expr, Prog))
+    |  FUN NAME Args EQ Expr (Expr)
+    |  FUN RECUR NAME Args DOISPONTOS EQ Expr (Expr)
 
 (*Tipo expr*)
 Expr : AtomicExpr (AtomicExpr)
