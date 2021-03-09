@@ -6,16 +6,17 @@
 
 (* tokens que para representar todos os simbolos terminais, 
 ie. tudo que nao esta dentro de < > nas regras da GLC usando absyn.sml como estrutura *)
+
 %term VAR 
     | FUN | RECUR
     | MINUS | PLUS | MUL | DIV 
-    | EQ | DIF | MENOR | MENOREQ 
-    | QUAPONTOS | PONTVIRG | SHARP | UNDER 
+    | EQ | DIF | MENOR | MENOREQ | AND | PIPE
+    | DOISPONTOS | QUAPONTOS | PONTVIRG | SHARP | UNDER 
     | ESQCHAVE | DIRCHAVE 
     | ESQPAR | DIRPAR 
     | ESQCOL | DIRCOL 
     | PRODUZ | TPRODUZ 
-    | VIRGULA |
+    | VIRGULA
     | IF | THEN | ELSE 
     | INT | NULL | BOOL 
     | TRUE | FALSE 
@@ -32,7 +33,7 @@ ie. tudo que nao esta dentro de < > nas regras da GLC usando absyn.sml como estr
 aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme definido em datatypes no arquivo Absyn.sml *)
 
 %nonterm Prog of expr
-    | Dec1 of (*DUVIDA*)
+    | Dec1 of expr
     | Expr of expr
     | AtomicExpr of expr
     | AppExpr of expr
@@ -49,7 +50,7 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 
 (*regras de associatividade*)
 (*Regras definidas de acordo com a subseção 3.3 da descrição do TP*)
-%right PONTVIRG
+%right PONTVIRG TPRODUZ
 %nonassoc IF
 %left ELSE
 %left AND
@@ -58,7 +59,7 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 %right QUAPONTOS
 %left MINUS PLUS
 %left DIV MUL
-%nonassoc EXCL HEAD TAIL ISEMPTY PRINT NAME
+%nonassoc EXCL HEAD TAIL ISEMPTY PRINT NAME (*nas regras EXCL = '!' , ja na associatividade esta escrito 'not' provavelmente sao a mesma coisa *)
 %left ESQCOL
 
 
@@ -76,7 +77,7 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 (*Regras de Produção especificadas na subseção 3.1 da especificação do TP*)
 (*Para o preenchimento deve-se observar os datatypes descritos em Absyn.sml*)
 Prog : Expr (Expr)
-    |  Dec1 PONTVIRG Prog () (*Criar funcao de tratamento*)
+    |  Dec1 PONTVIRG Prog (expr) (*Criar funcao de tratamento*)
 
 Dec1 : VAR NAME EQ Expr ()
     |  FUN NAME Args EQ Expr ()
@@ -152,7 +153,7 @@ Args : ESQPAR DIRPAR ([]) (*Retornar lista vazia - Sem params*)
 Params : TypedVar ([TypedVar]) (*Lista com um unico parâmetro*)
     | TypedVar VIRGULA Params ([TypedVar]@Params)(*Lista de TypedVar concatena c/ os outros params.*)
 
-(*Tipo: plcType * string - tupla com tipo + name dos params)
+(*Tipo: plcType * string - tupla com tipo + name dos params *)
 TypedVar : Type NAME ((Type, Name)) (*Basta retornar uma tupla com o tipo do param e o nome dele como indicado na seção 3.1*)
 
 (*Tipo: plcType*)
