@@ -1,0 +1,2211 @@
+start symbol used on the rhs of 2 rules
+
+warning: start symbol appears on the rhs of <Dec1 : VAR NAME EQ Expr PONTVIRG Prog >
+warning: start symbol appears on the rhs of <AtomicExpr : ESQCHAVE Prog DIRCHAVE >
+
+state 0:
+
+	Prog : . Expr 
+	Prog : . Dec1 
+
+	VAR	shift 22
+	FUN	shift 21
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Prog	goto 104
+	Dec1	goto 5
+	Expr	goto 4
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 1:
+
+	AtomicExpr : Const .  (reduce by rule 27)
+
+
+
+	.	reduce by rule 27
+
+
+state 2:
+
+	Expr : AppExpr .  (reduce by rule 6)
+	AppExpr : AppExpr . AtomicExpr 
+
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	NAME	shift 7
+	CINT	shift 6
+
+	AtomicExpr	goto 23
+	Const	goto 1
+
+	.	reduce by rule 6
+
+
+state 3:
+
+	Expr : AtomicExpr .  (reduce by rule 5)
+	AppExpr : AtomicExpr . AtomicExpr 
+
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	NAME	shift 7
+	CINT	shift 6
+
+	AtomicExpr	goto 24
+	Const	goto 1
+
+	.	reduce by rule 5
+
+
+state 4:
+
+	Prog : Expr .  (reduce by rule 0)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 0
+
+
+state 5:
+
+	Prog : Dec1 .  (reduce by rule 1)
+
+
+
+	.	reduce by rule 1
+
+
+state 6:
+
+	Const : CINT .  (reduce by rule 37)
+
+
+
+	.	reduce by rule 37
+
+
+state 7:
+
+	AtomicExpr : NAME .  (reduce by rule 28)
+
+
+
+	.	reduce by rule 28
+
+
+state 8:
+
+	Expr : MATCH . Expr WITH MatchExpr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 37
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 9:
+
+	Expr : EXCL . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 38
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 10:
+
+	Expr : PRINT . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 39
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 11:
+
+	Expr : ISEMPTY . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 40
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 12:
+
+	Expr : HEAD . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 41
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 13:
+
+	Expr : TAIL . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 42
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 14:
+
+	AtomicExpr : ANONFUN . Args PRODUZ Expr END 
+
+
+	Args	goto 43
+
+	.	error
+
+
+state 15:
+
+	Const : FALSE .  (reduce by rule 36)
+
+
+
+	.	reduce by rule 36
+
+
+state 16:
+
+	Const : TRUE .  (reduce by rule 35)
+
+
+
+	.	reduce by rule 35
+
+
+state 17:
+
+	Expr : IF . Expr THEN Expr ELSE Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 44
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 18:
+
+	AtomicExpr : ESQPAR . Expr DIRPAR 
+	AtomicExpr : ESQPAR . Comps DIRPAR 
+	Const : ESQPAR . DIRPAR 
+	Const : ESQPAR . Type ESQCOL DIRCOL DIRPAR 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	DIRPAR	shift 48
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 47
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+	Comps	goto 46
+	Type	goto 45
+
+	.	error
+
+
+state 19:
+
+	AtomicExpr : ESQCHAVE . Prog DIRCHAVE 
+
+	VAR	shift 22
+	FUN	shift 21
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Prog	goto 49
+	Dec1	goto 5
+	Expr	goto 4
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 20:
+
+	Expr : MINUS . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 50
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 21:
+
+	Dec1 : FUN . NAME Args EQ Expr 
+	Dec1 : FUN . RECUR NAME Args DOISPONTOS EQ Expr 
+
+	RECUR	shift 52
+	NAME	shift 51
+
+
+	.	error
+
+
+state 22:
+
+	Dec1 : VAR . NAME EQ Expr PONTVIRG Prog 
+
+	NAME	shift 53
+
+
+	.	error
+
+
+state 23:
+
+	AppExpr : AppExpr AtomicExpr .  (reduce by rule 34)
+
+
+
+	.	reduce by rule 34
+
+
+state 24:
+
+	AppExpr : AtomicExpr AtomicExpr .  (reduce by rule 33)
+
+
+
+	.	reduce by rule 33
+
+
+state 25:
+
+	Expr : Expr ESQCOL . CINT DIRCOL 
+
+	CINT	shift 54
+
+
+	.	error
+
+
+state 26:
+
+	Expr : Expr PONTVIRG . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 55
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 27:
+
+	Expr : Expr QUAPONTOS . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 56
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 28:
+
+	Expr : Expr AND . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 57
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 29:
+
+	Expr : Expr MENOREQ . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 58
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 30:
+
+	Expr : Expr MENOR . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 59
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 31:
+
+	Expr : Expr DIF . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 60
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 32:
+
+	Expr : Expr EQ . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 61
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 33:
+
+	Expr : Expr DIV . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 62
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 34:
+
+	Expr : Expr MUL . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 63
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 35:
+
+	Expr : Expr PLUS . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 64
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 36:
+
+	Expr : Expr MINUS . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 65
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 37:
+
+	Expr : MATCH Expr . WITH MatchExpr 
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+	WITH	shift 66
+
+
+	.	error
+
+
+state 38:
+
+	Expr : EXCL Expr .  (reduce by rule 9)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 9
+
+
+state 39:
+
+	Expr : PRINT Expr .  (reduce by rule 14)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 14
+
+
+state 40:
+
+	Expr : ISEMPTY Expr .  (reduce by rule 13)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 13
+
+
+state 41:
+
+	Expr : HEAD Expr .  (reduce by rule 11)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 11
+
+
+state 42:
+
+	Expr : TAIL Expr .  (reduce by rule 12)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 12
+
+
+state 43:
+
+	AtomicExpr : ANONFUN Args . PRODUZ Expr END 
+
+	PRODUZ	shift 67
+
+
+	.	error
+
+
+state 44:
+
+	Expr : IF Expr . THEN Expr ELSE Expr 
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+	THEN	shift 68
+
+
+	.	error
+
+
+state 45:
+
+	Const : ESQPAR Type . ESQCOL DIRCOL DIRPAR 
+
+	ESQCOL	shift 69
+
+
+	.	error
+
+
+state 46:
+
+	AtomicExpr : ESQPAR Comps . DIRPAR 
+
+	DIRPAR	shift 70
+
+
+	.	error
+
+
+state 47:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+	AtomicExpr : ESQPAR Expr . DIRPAR 
+	Comps : Expr . VIRGULA Expr 
+	Comps : Expr . VIRGULA Comps 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	DIRPAR	shift 72
+	ESQCOL	shift 25
+	VIRGULA	shift 71
+
+
+	.	error
+
+
+state 48:
+
+	Const : ESQPAR DIRPAR .  (reduce by rule 38)
+
+
+
+	.	reduce by rule 38
+
+
+state 49:
+
+	AtomicExpr : ESQCHAVE Prog . DIRCHAVE 
+
+	DIRCHAVE	shift 73
+
+
+	.	error
+
+
+state 50:
+
+	Expr : MINUS Expr .  (reduce by rule 10)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MUL	shift 34
+	DIV	shift 33
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 10
+
+
+state 51:
+
+	Dec1 : FUN NAME . Args EQ Expr 
+
+
+	Args	goto 74
+
+	.	error
+
+
+state 52:
+
+	Dec1 : FUN RECUR . NAME Args DOISPONTOS EQ Expr 
+
+	NAME	shift 75
+
+
+	.	error
+
+
+state 53:
+
+	Dec1 : VAR NAME . EQ Expr PONTVIRG Prog 
+
+	EQ	shift 76
+
+
+	.	error
+
+
+state 54:
+
+	Expr : Expr ESQCOL CINT . DIRCOL 
+
+	DIRCOL	shift 77
+
+
+	.	error
+
+
+state 55:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr PONTVIRG Expr .  (reduce by rule 25)
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 25
+
+
+state 56:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr QUAPONTOS Expr .  (reduce by rule 24)
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	QUAPONTOS	shift 27
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 24
+
+
+state 57:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr AND Expr .  (reduce by rule 15)
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	QUAPONTOS	shift 27
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 15
+
+
+state 58:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr MENOREQ Expr .  (reduce by rule 23)
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	QUAPONTOS	shift 27
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 23
+
+
+state 59:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr MENOR Expr .  (reduce by rule 22)
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	QUAPONTOS	shift 27
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 22
+
+
+state 60:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr DIF Expr .  (reduce by rule 21)
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	MENOR	shift 30
+	MENOREQ	shift 29
+	QUAPONTOS	shift 27
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 21
+
+
+state 61:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr EQ Expr .  (reduce by rule 20)
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	MENOR	shift 30
+	MENOREQ	shift 29
+	QUAPONTOS	shift 27
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 20
+
+
+state 62:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr DIV Expr .  (reduce by rule 19)
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 19
+
+
+state 63:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr MUL Expr .  (reduce by rule 18)
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 18
+
+
+state 64:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr PLUS Expr .  (reduce by rule 16)
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MUL	shift 34
+	DIV	shift 33
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 16
+
+
+state 65:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr MINUS Expr .  (reduce by rule 17)
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MUL	shift 34
+	DIV	shift 33
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 17
+
+
+state 66:
+
+	Expr : MATCH Expr WITH . MatchExpr 
+
+	PIPE	shift 80
+	END	shift 79
+
+	MatchExpr	goto 78
+
+	.	error
+
+
+state 67:
+
+	AtomicExpr : ANONFUN Args PRODUZ . Expr END 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 81
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 68:
+
+	Expr : IF Expr THEN . Expr ELSE Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 82
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 69:
+
+	Const : ESQPAR Type ESQCOL . DIRCOL DIRPAR 
+
+	DIRCOL	shift 83
+
+
+	.	error
+
+
+state 70:
+
+	AtomicExpr : ESQPAR Comps DIRPAR .  (reduce by rule 31)
+
+
+
+	.	reduce by rule 31
+
+
+state 71:
+
+	Comps : Expr VIRGULA . Expr 
+	Comps : Expr VIRGULA . Comps 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 85
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+	Comps	goto 84
+
+	.	error
+
+
+state 72:
+
+	AtomicExpr : ESQPAR Expr DIRPAR .  (reduce by rule 30)
+
+
+
+	.	reduce by rule 30
+
+
+state 73:
+
+	AtomicExpr : ESQCHAVE Prog DIRCHAVE .  (reduce by rule 29)
+
+
+
+	.	reduce by rule 29
+
+
+state 74:
+
+	Dec1 : FUN NAME Args . EQ Expr 
+
+	EQ	shift 86
+
+
+	.	error
+
+
+state 75:
+
+	Dec1 : FUN RECUR NAME . Args DOISPONTOS EQ Expr 
+
+
+	Args	goto 87
+
+	.	error
+
+
+state 76:
+
+	Dec1 : VAR NAME EQ . Expr PONTVIRG Prog 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 88
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 77:
+
+	Expr : Expr ESQCOL CINT DIRCOL .  (reduce by rule 26)
+
+
+
+	.	reduce by rule 26
+
+
+state 78:
+
+	Expr : MATCH Expr WITH MatchExpr .  (reduce by rule 8)
+
+
+
+	.	reduce by rule 8
+
+
+state 79:
+
+	MatchExpr : END .  (reduce by rule 42)
+
+
+
+	.	reduce by rule 42
+
+
+state 80:
+
+	MatchExpr : PIPE . CondExpr TPRODUZ Expr MatchExpr 
+
+
+	CondExpr	goto 89
+
+	.	error
+
+
+state 81:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+	AtomicExpr : ANONFUN Args PRODUZ Expr . END 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+	END	shift 90
+
+
+	.	error
+
+
+state 82:
+
+	Expr : IF Expr THEN Expr . ELSE Expr 
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+	ELSE	shift 91
+
+
+	.	error
+
+
+state 83:
+
+	Const : ESQPAR Type ESQCOL DIRCOL . DIRPAR 
+
+	DIRPAR	shift 92
+
+
+	.	error
+
+
+state 84:
+
+	Comps : Expr VIRGULA Comps .  (reduce by rule 41)
+
+
+
+	.	reduce by rule 41
+
+
+state 85:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+	Comps : Expr . VIRGULA Expr 
+	Comps : Expr VIRGULA Expr .  (reduce by rule 40)
+	Comps : Expr . VIRGULA Comps 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+	VIRGULA	shift 71
+
+
+	.	reduce by rule 40
+
+
+state 86:
+
+	Dec1 : FUN NAME Args EQ . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 93
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 87:
+
+	Dec1 : FUN RECUR NAME Args . DOISPONTOS EQ Expr 
+
+	DOISPONTOS	shift 94
+
+
+	.	error
+
+
+state 88:
+
+	Dec1 : VAR NAME EQ Expr . PONTVIRG Prog 
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 95
+	ESQCOL	shift 25
+
+
+	.	error
+
+
+state 89:
+
+	MatchExpr : PIPE CondExpr . TPRODUZ Expr MatchExpr 
+
+	TPRODUZ	shift 96
+
+
+	.	error
+
+
+state 90:
+
+	AtomicExpr : ANONFUN Args PRODUZ Expr END .  (reduce by rule 32)
+
+
+
+	.	reduce by rule 32
+
+
+state 91:
+
+	Expr : IF Expr THEN Expr ELSE . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 97
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 92:
+
+	Const : ESQPAR Type ESQCOL DIRCOL DIRPAR .  (reduce by rule 39)
+
+
+
+	.	reduce by rule 39
+
+
+state 93:
+
+	Dec1 : FUN NAME Args EQ Expr .  (reduce by rule 3)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 3
+
+
+state 94:
+
+	Dec1 : FUN RECUR NAME Args DOISPONTOS . EQ Expr 
+
+	EQ	shift 98
+
+
+	.	error
+
+
+state 95:
+
+	Dec1 : VAR NAME EQ Expr PONTVIRG . Prog 
+	Expr : Expr PONTVIRG . Expr 
+
+	VAR	shift 22
+	FUN	shift 21
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Prog	goto 100
+	Dec1	goto 5
+	Expr	goto 99
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 96:
+
+	MatchExpr : PIPE CondExpr TPRODUZ . Expr MatchExpr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 101
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 97:
+
+	Expr : IF Expr THEN Expr ELSE Expr .  (reduce by rule 7)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 7
+
+
+state 98:
+
+	Dec1 : FUN RECUR NAME Args DOISPONTOS EQ . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 102
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 99:
+
+	Prog : Expr .  (reduce by rule 0)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr PONTVIRG Expr .  (reduce by rule 25)
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	DIRCHAVE	reduce by rule 0
+	ESQCOL	shift 25
+	EOF	reduce by rule 0
+
+
+	.	error
+
+
+state 100:
+
+	Dec1 : VAR NAME EQ Expr PONTVIRG Prog .  (reduce by rule 2)
+
+
+
+	.	reduce by rule 2
+
+
+state 101:
+
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+	MatchExpr : PIPE CondExpr TPRODUZ Expr . MatchExpr 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	PIPE	shift 80
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+	END	shift 79
+
+	MatchExpr	goto 103
+
+	.	error
+
+
+state 102:
+
+	Dec1 : FUN RECUR NAME Args DOISPONTOS EQ Expr .  (reduce by rule 4)
+	Expr : Expr . AND Expr 
+	Expr : Expr . PLUS Expr 
+	Expr : Expr . MINUS Expr 
+	Expr : Expr . MUL Expr 
+	Expr : Expr . DIV Expr 
+	Expr : Expr . EQ Expr 
+	Expr : Expr . DIF Expr 
+	Expr : Expr . MENOR Expr 
+	Expr : Expr . MENOREQ Expr 
+	Expr : Expr . QUAPONTOS Expr 
+	Expr : Expr . PONTVIRG Expr 
+	Expr : Expr . ESQCOL CINT DIRCOL 
+
+	MINUS	shift 36
+	PLUS	shift 35
+	MUL	shift 34
+	DIV	shift 33
+	EQ	shift 32
+	DIF	shift 31
+	MENOR	shift 30
+	MENOREQ	shift 29
+	AND	shift 28
+	QUAPONTOS	shift 27
+	PONTVIRG	shift 26
+	ESQCOL	shift 25
+
+
+	.	reduce by rule 4
+
+
+state 103:
+
+	MatchExpr : PIPE CondExpr TPRODUZ Expr MatchExpr .  (reduce by rule 43)
+
+
+
+	.	reduce by rule 43
+
+
+state 104:
+
+
+	EOF	accept
+
+
+	.	error
+
+320 of 849 action table entries left after compaction
+143 goto table entries
