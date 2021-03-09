@@ -134,3 +134,41 @@ Comps : Expr VIRGULA Expr ([Expr1, Expr2]) (*retornar uma lista com as 2 express
 MatchExpr : END ([]) (*Lista Vazia*)
     | PIPE CondExpr TPRODUZ Expr MatchExpr ([CondExpr, Expr] @ MatchExpr) (*Lista contendo CondExpr e Expr concatenada com outras possiveis MatchExpr*)
 
+
+(*ENTENDENDO TIPO option:
+datatype 'a option = NONE | SOME of 'a
+The type option provides a distinction between some value and no value,
+and is often used for representing the result of partially defined functions.
+It can be viewed as a typed version of the C convention of returning a NULL 
+pointer to indicate no value.*)
+(*Tipo - expr option*)
+CondExpr : Expr (SOME Expr)
+    | UNDER (NONE)
+
+(*Tipo: (plcType * string) list*)
+Args : ESQPAR DIRPAR ([]) (*Retornar lista vazia - Sem params*) 
+    | ESQPAR Params DIRPAR (Params) (*Retornar Params - obs: Params já é uma lista*)
+
+(*Tipo: (plcType * string) list - Como esperado tem que ser o msm de Args*)
+Params : TypedVar ([TypedVar]) (*Lista com um unico parâmetro*)
+    | TypedVar VIRGULA Params ([TypedVar]@Params)(*Lista de TypedVar concatena c/ os outros params.*)
+
+(*Tipo: plcType * string - tupla com tipo + name dos params *)
+TypedVar : Type NAME ((Type, Name)) (*Basta retornar uma tupla com o tipo do param e o nome dele como indicado na seção 3.1*)
+
+(*Tipo: plcType*)
+Type : AtomicType (AtomicType)
+    | ESQPAR Types DIRPAR (ListT Type) (*list type*)
+    | ESQCOL Type DIRCOL (SeqT Type) (*sequence type*)
+    | Type TPRODUZ Type (FunT(Type1, Type2)) (*function type*)
+
+(*Tipo: plcType*)
+AtomicType : NULL (ListT []) (*Nil nada mais é que uma list vazia (do tipo plcType)*)
+    | BOOL (BoolT)
+    | INT (IntT)
+    | ESQPAR Type DIRPAR (Type) (*Basta retornar o tipo que esta entre parentesis*)
+
+(*Tipo: plcType list - É simplesmente uma lista de Type acima*)
+Types: Type VIRGULA Type ([Type1, Type2]) (*Basta retornar um lista com os 2 tipos*)
+    | Type VIRGULA Types ([Type1]@Types) (*Cria uma lista com Type e concatena com os outros Types (que já é uma lista)*)
+
