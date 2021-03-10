@@ -3,18 +3,15 @@ YACC=ml-yacc
 
 padrao: r
 
-r: x y
-	sml testParser.sml
+r: x y	
+	sml < testParser.sml
+	# modo nao interativo, edite o Makefile e remova "<" para alterar
 
 x: *.lex
 	$(LEX) $^
 
 y: *.yacc
-	$(YACC) $^
-
-
-
-
+	$(YACC) $^ 
 
 h:
 	@printf "\n\tLinguagens de Programação - UFMG 2020/2\n"

@@ -26,10 +26,13 @@ fromString "([Bool] [])";
 fromString "print x; true";
 fromString "3::7::t";
 fromString "fn (Int x) => -x end";
-fromString "var x = 9; x + 3";
+fromString "var x = 9; x + 1";
 fromString "fun f(Int x) = x; f(1)";
 fromString "match x with | 0 -> 1| _ -> -1 end";
-fromFile ("example.plc");
+(*fromString "fun rec f(Int n) = if n <= 0 then 0 else n + f(n-1)";*)
+fromString "f(5)";
+
+(*fromFile ("example.plc");*)
 
 use "testParserCases.sml"
 

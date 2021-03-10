@@ -26,7 +26,7 @@ state 0:
 	NAME	shift 7
 	CINT	shift 6
 
-	Prog	goto 134
+	Prog	goto 135
 	Dec1	goto 5
 	Expr	goto 4
 	AtomicExpr	goto 3
@@ -470,7 +470,7 @@ state 20:
 state 21:
 
 	Dec1 : FUN . NAME Args EQ Expr 
-	Dec1 : FUN . RECUR NAME Args DOISPONTOS EQ Expr 
+	Dec1 : FUN . RECUR NAME Args DOISPONTOS Type EQ Expr 
 
 	RECUR	shift 59
 	NAME	shift 58
@@ -1242,7 +1242,7 @@ state 58:
 
 state 59:
 
-	Dec1 : FUN RECUR . NAME Args DOISPONTOS EQ Expr 
+	Dec1 : FUN RECUR . NAME Args DOISPONTOS Type EQ Expr 
 
 	NAME	shift 91
 
@@ -1827,7 +1827,7 @@ state 90:
 
 state 91:
 
-	Dec1 : FUN RECUR NAME . Args DOISPONTOS EQ Expr 
+	Dec1 : FUN RECUR NAME . Args DOISPONTOS Type EQ Expr 
 
 	ESQPAR	shift 44
 
@@ -2181,7 +2181,7 @@ state 111:
 
 state 112:
 
-	Dec1 : FUN RECUR NAME Args . DOISPONTOS EQ Expr 
+	Dec1 : FUN RECUR NAME Args . DOISPONTOS Type EQ Expr 
 
 	DOISPONTOS	shift 124
 
@@ -2387,10 +2387,16 @@ state 123:
 
 state 124:
 
-	Dec1 : FUN RECUR NAME Args DOISPONTOS . EQ Expr 
+	Dec1 : FUN RECUR NAME Args DOISPONTOS . Type EQ Expr 
 
-	EQ	shift 128
+	ESQPAR	shift 79
+	ESQCOL	shift 53
+	INT	shift 52
+	NULL	shift 51
+	BOOL	shift 50
 
+	Type	goto 128
+	AtomicType	goto 46
 
 	.	error
 
@@ -2490,28 +2496,12 @@ state 127:
 
 state 128:
 
-	Dec1 : FUN RECUR NAME Args DOISPONTOS EQ . Expr 
+	Dec1 : FUN RECUR NAME Args DOISPONTOS Type . EQ Expr 
+	Type : Type . TPRODUZ Type 
 
-	MINUS	shift 20
-	ESQCHAVE	shift 19
-	ESQPAR	shift 18
-	IF	shift 17
-	TRUE	shift 16
-	FALSE	shift 15
-	ANONFUN	shift 14
-	TAIL	shift 13
-	HEAD	shift 12
-	ISEMPTY	shift 11
-	PRINT	shift 10
-	EXCL	shift 9
-	MATCH	shift 8
-	NAME	shift 7
-	CINT	shift 6
+	EQ	shift 132
+	TPRODUZ	shift 81
 
-	Expr	goto 132
-	AtomicExpr	goto 3
-	AppExpr	goto 2
-	Const	goto 1
 
 	.	error
 
@@ -2599,7 +2589,44 @@ state 131:
 
 state 132:
 
-	Dec1 : FUN RECUR NAME Args DOISPONTOS EQ Expr .  (reduce by rule 4)
+	Dec1 : FUN RECUR NAME Args DOISPONTOS Type EQ . Expr 
+
+	MINUS	shift 20
+	ESQCHAVE	shift 19
+	ESQPAR	shift 18
+	IF	shift 17
+	TRUE	shift 16
+	FALSE	shift 15
+	ANONFUN	shift 14
+	TAIL	shift 13
+	HEAD	shift 12
+	ISEMPTY	shift 11
+	PRINT	shift 10
+	EXCL	shift 9
+	MATCH	shift 8
+	NAME	shift 7
+	CINT	shift 6
+
+	Expr	goto 134
+	AtomicExpr	goto 3
+	AppExpr	goto 2
+	Const	goto 1
+
+	.	error
+
+
+state 133:
+
+	MatchExpr : PIPE CondExpr TPRODUZ Expr MatchExpr .  (reduce by rule 43)
+
+
+
+	.	reduce by rule 43
+
+
+state 134:
+
+	Dec1 : FUN RECUR NAME Args DOISPONTOS Type EQ Expr .  (reduce by rule 4)
 	Expr : Expr . AND Expr 
 	Expr : Expr . PLUS Expr 
 	Expr : Expr . MINUS Expr 
@@ -2630,16 +2657,7 @@ state 132:
 	.	reduce by rule 4
 
 
-state 133:
-
-	MatchExpr : PIPE CondExpr TPRODUZ Expr MatchExpr .  (reduce by rule 43)
-
-
-
-	.	reduce by rule 43
-
-
-state 134:
+state 135:
 
 
 	EOF	accept
@@ -2647,5 +2665,5 @@ state 134:
 
 	.	error
 
-382 of 983 action table entries left after compaction
-174 goto table entries
+383 of 990 action table entries left after compaction
+176 goto table entries
