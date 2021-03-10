@@ -48,7 +48,7 @@ fun isKeyword(str, lpos, rpos) =
 |    "true" => TRUE (lpos, rpos)
 |    "var" => VAR (lpos, rpos)
 |    "with" => WITH (lpos, rpos)
-|    "__" => UNDER (lpos, rpos)
+|    "_" => UNDER (lpos, rpos)
 |    _ => NAME (str, lpos, rpos);
 
 
@@ -110,6 +110,7 @@ identificador=[a-zA-Z][a-zA-Z_0-9]*;
 "," => (VIRGULA(yypos, yypos));
 
 "->" => (TPRODUZ(yypos, yypos));
+"_" => (UNDER(yypos, yypos));
 
 . => (error("\n***Lexer error: bad simbol***\n"); raise Fail("Lexer: fail at "^yytext) );
 
