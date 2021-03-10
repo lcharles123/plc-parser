@@ -27,36 +27,37 @@ Bool else end false fn fun hd if Int ise
 match Nil print rec then tl true var with __
 *)
 
-fun isKeyword(str, lpos, rpos)=
+fun isKeyword(str, lpos, rpos) =
     case str of
-    "Bool" => BOOL()
-    "else" => ELSE
-    "end" => END
-    "false" => FALSE
-    "fn" => ANONFUN
-    "fun" => FUN
-    "hd" => HEAD
-    "if" => IF
-    "Int" => INT
-    "ise" => ISEMPTY
-    "match" => MATCH
-    "Nil" => NULL
-    "print" => PRINT
-    "rec" => RECUR
-    "then" => THEN
-    "tl" => TAIL
-    "true" => TRUE
-    "var" => VAR
-    "with" => WITH
-    "__" => UNDER
-    _ => NAME(str, lpos, rpos)
-    
+    "Bool" => BOOL (lpos, rpos)
+|    "else" => ELSE (lpos, rpos)
+|    "end" => END (lpos, rpos)
+|    "false" => FALSE (lpos, rpos)
+|    "fn" => ANONFUN (lpos, rpos)
+|    "fun" => FUN (lpos, rpos)
+|    "hd" => HEAD (lpos, rpos)
+|    "if" => IF (lpos, rpos)
+|    "Int" => INT (lpos, rpos)
+|    "ise" => ISEMPTY (lpos, rpos)
+|    "match" => MATCH (lpos, rpos)
+|    "Nil" => NULL (lpos, rpos)
+|    "print" => PRINT (lpos, rpos)
+|    "rec" => RECUR (lpos, rpos)
+|    "then" => THEN (lpos, rpos)
+|    "tl" => TAIL (lpos, rpos)
+|    "true" => TRUE (lpos, rpos)
+|    "var" => VAR (lpos, rpos)
+|    "with" => WITH (lpos, rpos)
+|    "__" => UNDER (lpos, rpos)
+|    _ => NAME (str, lpos, rpos);
 
 
-
-
-
-
+fun strToInt str = let 
+    val 
+        SOME x = Int.fromString str 
+    in 
+        x
+    end;
 
 (* Define what to do when the end of the file is reached. Versao sem coments *)
 fun eof () = Tokens.EOF(0,0)
