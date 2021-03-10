@@ -132,7 +132,7 @@ Comps : Expr VIRGULA Expr ([Expr1, Expr2]) (*retornar uma lista com as 2 express
 
 (*Tipo (expr option * expr) list*)
 MatchExpr : END ([]) (*Lista Vazia*)
-    | PIPE CondExpr TPRODUZ Expr MatchExpr ([CondExpr, Expr] @ MatchExpr) (*Lista contendo CondExpr e Expr concatenada com outras possiveis MatchExpr*)
+    | PIPE CondExpr TPRODUZ Expr MatchExpr ([(CondExpr, Expr)] @ MatchExpr) (*Lista contendo CondExpr e Expr concatenada com outras possiveis MatchExpr*)
 
 
 (*ENTENDENDO TIPO option:
@@ -154,11 +154,11 @@ Params : TypedVar ([TypedVar]) (*Lista com um unico parâmetro*)
     | TypedVar VIRGULA Params ([TypedVar]@Params)(*Lista de TypedVar concatena c/ os outros params.*)
 
 (*Tipo: plcType * string - tupla com tipo + name dos params *)
-TypedVar : Type NAME ((Type, Name)) (*Basta retornar uma tupla com o tipo do param e o nome dele como indicado na seção 3.1*)
+TypedVar : Type NAME ((Type, NAME)) (*Basta retornar uma tupla com o tipo do param e o nome dele como indicado na seção 3.1*)
 
 (*Tipo: plcType*)
 Type : AtomicType (AtomicType)
-    | ESQPAR Types DIRPAR (ListT Type) (*list type*)
+    | ESQPAR Types DIRPAR (ListT Types) (*list type*)
     | ESQCOL Type DIRCOL (SeqT Type) (*sequence type*)
     | Type TPRODUZ Type (FunT(Type1, Type2)) (*function type*)
 
@@ -170,5 +170,5 @@ AtomicType : NULL (ListT []) (*Nil nada mais é que uma list vazia (do tipo plcT
 
 (*Tipo: plcType list - É simplesmente uma lista de Type acima*)
 Types: Type VIRGULA Type ([Type1, Type2]) (*Basta retornar um lista com os 2 tipos*)
-    | Type VIRGULA Types ([Type1]@Types) (*Cria uma lista com Type e concatena com os outros Types (que já é uma lista)*)
+    | Type VIRGULA Types ([Type1] @ Types) (*Cria uma lista com Type e concatena com os outros Types (que já é uma lista)*)
 
