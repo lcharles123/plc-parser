@@ -1,5 +1,26 @@
 use "Absyn.sml";
 
+fun t vet n = 
+    let 
+        val teste = (fn (a,_) => a ) (List.nth(vet, n))
+        val resultado = (fn (_,b) => b ) (List.nth(vet, n))
+    in
+    
+        fromString teste
+
+    end;
+    
+fun r vet n = 
+    let 
+        val teste = (fn (a,_) => a ) (List.nth(vet, n))
+        val resultado = (fn (_,b) => b ) (List.nth(vet, n))
+    in
+    
+        resultado
+
+    end;
+
+
 val cases =
   (
     let val s = "0";
@@ -439,3 +460,5 @@ val cases =
         (s, e)
     end
   ) ];
+  
+

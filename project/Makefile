@@ -1,17 +1,22 @@
 LEX=ml-lex
 YACC=ml-yacc
+RLWRAP=`which rlwrap`
 
 padrao: r
 
 r: x y	
-	sml < testParser.sml
-	# modo nao interativo, edite o Makefile e remova "<" para alterar
+	$(RLWRAP) sml testParser.sml
+	# modo iterativo, edite o Makefile e remova ou adicione "<" para alterar, ex.:	sml < testParser.sml
 
 x: *.lex
 	$(LEX) $^
 
 y: *.yacc
 	$(YACC) $^ 
+
+
+cases: x y
+	$(RLWRAP) sml testParserCases.sml
 
 h:
 	@printf "\n\tLinguagens de Programação - UFMG 2020/2\n"

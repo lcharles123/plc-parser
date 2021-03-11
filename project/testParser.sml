@@ -38,3 +38,44 @@ use "testParserCases.sml"
 
 (* Try to add a systematic way of using the test cases in
    testParserCases to stress test your parser *)
+
+
+
+(*casos de teste, chamar t cases <numero do caso>
+        solucoes, chamar r cases <numero do caso>
+
+*)
+(*
+val num = 3;
+t cases num; r cases num;
+*)
+(*
+val num = 4;
+t cases num; r cases num;
+*)
+(*
+val num = 5;
+t cases num; r cases num;
+*)
+(*
+val num = 6;
+t cases num; r cases num;
+*)
+(*
+val num = 7;
+t cases num; r cases num;
+*)
+(*
+val num =8;
+t cases num; r cases num;
+*)
+(*
+val num = 9;
+t cases num; r cases num;
+*)
+(*
+val num = 10;
+t cases num; r cases num;
+*)
+
+
