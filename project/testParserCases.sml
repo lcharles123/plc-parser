@@ -1,24 +1,19 @@
-use "Absyn.sml";
 
-fun t vet n = 
-    let 
+
+fun teste (vet, n) = 
+    (let 
         val teste = (fn (a,_) => a ) (List.nth(vet, n))
         val resultado = (fn (_,b) => b ) (List.nth(vet, n))
     in
     
-        fromString teste
+        if ((fromString teste) = resultado) 
+        then print ("Teste "^Int.toString n^" Passou!\n")
+        else print ("Teste "^Int.toString n^" FALHOU com a entrada: "^teste^"\n")
 
-    end;
+    end)
+    handle ParseError => print "Lidando com parser error!\n";
     
-fun r vet n = 
-    let 
-        val teste = (fn (a,_) => a ) (List.nth(vet, n))
-        val resultado = (fn (_,b) => b ) (List.nth(vet, n))
-    in
-    
-        resultado
 
-    end;
 
 
 val cases =
