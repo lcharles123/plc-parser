@@ -68,7 +68,6 @@ fun init() = ()
 (* Comentarios nao suportados a partir da proxima secao *)
 %%
 %header (functor PlcLexerFun(structure Tokens: PlcParser_TOKENS));
-
 alfanumerico=[a-zA-Z];
 digito=[0-9];
 espaco=[\ \t];
@@ -77,8 +76,6 @@ identificador=[a-zA-Z][a-zA-Z_0-9]*;
 
 
 %%
-
-
 
 \n => (lineNumber := !lineNumber + 1; lex());
 {espaco}+ => (lex());

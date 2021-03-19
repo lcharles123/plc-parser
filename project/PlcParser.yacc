@@ -70,7 +70,7 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 
 (*simbolo inicial*)
 %start Prog
-%verbose
+
 %%
 
 (*  operator domain: string * (plcType * string) list * plcType * expr * expr
@@ -82,26 +82,21 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 (*Regras de Produção especificadas na subseção 3.1 da especificação do TP*)
 (*Para o preenchimento deve-se observar os datatypes descritos em Absyn.sml*)
 Prog : Expr (Expr)
-    |  Dec1 (Dec1) (*Criar funcao de tratamento*)
+    |  Dec1 (Dec1)
 
-Dec1 : VAR NAME EQ Expr PONTVIRG Prog (Let(NAME, Expr, Prog)) (*Let ja retorna para vars ou fun's*)
-
-
-    |  FUN NAME Args EQ Expr (Let(NAME, makeAnon(Args, Expr), Expr)) (*TODO*)
-    
-    |  FUN RECUR NAME Args DOISPONTOS Type EQ Expr (makeFun(NAME, Args, Type, Expr, Expr )) (*TODO*)
+Dec1 : VAR NAME EQ Expr PONTVIRG Prog (Let(NAME, Expr, Prog)) 
+    |  FUN NAME Args EQ Expr PONTVIRG Prog (Let(NAME, makeAnon(Args, Expr), Prog))(* PONTVIRG Prog adicionado apesar de nao estar na gramatica *) 
+    |  FUN RECUR NAME Args DOISPONTOS Type EQ Expr PONTVIRG Prog (makeFun(NAME, Args, Type, Expr, Prog )) (*tudo ok*)
 
 (*
 
-fn (Int x) => -x end
-Anon (IntT,"x",Prim1 ("-",Var "x")) : expr
 
-Let  NAME  mkanon                     call
-fun f(Int x) = x; f(1)  ====  Let ("f", Anon (IntT, "x", Var "x"), Call ("f", ConI 1))
-                              Let   NAME  , AtomicExpr(Expr) , Expr 
-Let
-    ("f",Anon (IntT,"x",Prim2 (";",Var "x",Call (Var "f",ConI 1))),
-     Prim2 (";",Var "x",Call (Var "f",ConI 1))) : expr
+Letrec ("f", IntT, "n", IntT,
+If (Prim2 ("=", Var "n", ConI 0), ConI 0,
+Prim2 ("+", Var "n", Call (Var "f", ...))),
+Call (Var "f", ConI 5))
+
+
 *)
 (*Tipo expr*)
 Expr : AtomicExpr (AtomicExpr)
