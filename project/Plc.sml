@@ -33,29 +33,43 @@ print "Iniciando interpretador...";
 2: checar tipos com teval
 3: avaliar com eval retornando uma string com valor e tipo do resultado, tratar excessoes aqui caso 
 *)
+
+
 fun run exp =
-    let
+    (let
         val env = []
-        val expT = teval exp []
-        val expRes = eval exp []
+        val resT = teval exp []
+        val resV = eval exp []
+        
     in
-        val2string(expRes) ^ " : " ^ type2string(expT)
-    end;
+        val2string(resV) ^ " : " ^ type2string(resT)
+    end) (*handle SymbolNotFound => let val p = print ("ERROR: One or more symbols are not defined in expression evaluation.") in raise SymbolNotFound end*)
+    
+    handle SymbolNotFound => "ERRO: SymbolNotFound: Caractere nao definido como variavel ou construtor." 
+    |   EmptySeq => "ERRO: EmptySeq: A sequência de entrada não contém nenhum elemento." 
+    |   UnknownType => "ERRO: UnknownType: UnknownType."
+    |   NotEqTypes => "ERRO: NotEqTypes: Comparacao de tipos diferentes."
+    |   WrongRetType => "ERRO: WrongRetType : Tipo de retorno nao concorda."
+    |   DiffBrTypes => "ERRO: DiffBrTypes: Os tipos da expressões dos possíveis caminhos de um If divergem."
+    |   IfCondNotBool => "ERRO: IfCondNotBool: A condição do if não é booleana."
+    |   NoMatchResults => "ERRO: NoMatchResults: Não deu match."
+    |   MatchResTypeDiff => "ERRO: MatchResTypeDiff: O tipo de algum dos casos em match difere dos demais."
+    |   MatchCondTypesDiff => "ERRO: MatchCondTypesDiff: O tipo das opções de match difere do tipo da expressão passada para Match."
+    |   CallTypeMisM => "ERRO: CallTypeMisM: Você está passando pra uma chamada de função um tipo diferente do qual ela suporta."
+    |   NotFunc => "ERRO: NotFunc: Você está tentando chamar algo que não é uma função."
+    |   ListOutOfRange => "ERRO: ListOutOfRange: Tentativa de acessar um elemento fora dos limites da lista."
+    |   OpNonList => "ERRO: OpNonList: Tentativa de acessar um elemento em uma expressão que não é uma lista."
+    ;
 
-
+(*
 eval (fromString "15") [];(*val it = IntV 15 : plcVal*)
 eval (fromString "true") [];(*val it = BoolV true : plcVal*)
 eval (fromString "()") []; (*val it = ListV [] : plcVal*)
-(*
 eval (fromString "(6,false)[]") [];
-ParseError*)
 eval (fromString "(6,false)[1]") [];(*val it = IntV 6 : plcVal*)
 eval (fromString "([Bool] [])") [];(*val it = SeqV [] : plcVal*)
-eval (fromString "print x; true") [("x", BoolV false)]; (*val it = BoolV true : plcVal*)(*????????????????????*)
-(*
+eval (fromString "print x; true") [("x", BoolV false)]; (*val it = BoolV true : plcVal*)
 eval (fromString "3::7::r") []; 
-SymbolNotFound
-*)
 eval (fromString "fn (Int x) => -x end");(*val it = fn : plcVal env -> plcVal*)
 eval (fromString "var x = 9; x + 1") [];(*val it = IntV 10 : plcVal*)
 eval (fromString "fun f(Int x) = x; f(1)") [];(*val it = IntV 1 : plcVal*)
@@ -79,6 +93,59 @@ HDEmptySeq
 eval (fromString "hd ([Int] [])") [];
 ValueNotFoundInMatch
 eval (fromString "match x with | 1 -> 0 | 2 -> 1 end") [("x", IntV 0)];
-
  *)
+
+teval (fromString "match x with | 0 -> 1 | _ -> -1 end") [("x", IntV 0)];(*val it = IntV 1 : plcVal*)
+
+*)
+
+
+
+(*
+usar ((fromString "15") ou (fromFile "arquivo.plc"))
+*)
+fun entrada str = print(run str);
+
+(*
+entrada (fromString "15") ;(*val it = IntV 15 : plcVal*)
+entrada (fromString "true") ;(*val it = BoolV true : plcVal*)
+entrada (fromString "()") ; (*val it = ListV [] : plcVal*)
+entrada (fromString "(6,false)");
+entrada (fromString "(6,false)[1]") ;(*val it = IntV 6 : plcVal*)
+entrada (fromString "([Bool] [])") ;(*val it = SeqV [] : plcVal*)
+entrada (fromString "print 1; true"); (*val it = BoolV true : plcVal*)
+(*
+entrada (fromString "3::7::r") ; 
+SymbolNotFound
+*)
+entrada (fromString "fn (Int x) => -x end");(*val it = fn : plcVal env -> plcVal*)
+entrada (fromString "var x = 9; x + 1") ;(*val it = IntV 10 : plcVal*)
+entrada (fromString "fun f(Int x) = x; f(1)") ;(*val it = IntV 1 : plcVal*)
+entrada (fromString "match x with | 0 -> 1 | _ -> -1 end") [("x", IntV 0)];(*val it = IntV 1 : plcVal*)
+entrada (fromString "if true then 1 else 0") ;(*val it = IntV 1 : plcVal*)
+entrada (fromString "true && false") ;(*val it = BoolV false : plcVal*)
+entrada (fromString "1+2") ;(*val it = IntV 3 : plcVal*)
+entrada (fromString "1-2") ;(*val it = IntV ~1 : plcVal*)
+entrada (fromString "1*2") ;(*val it = IntV 2 : plcVal*)
+entrada (fromString "1/2") ;(*val it = IntV 0 : plcVal*)
+entrada (fromString "fun rec f(Int n):Int = if n <= 0 then 0 else n + f(n-1); f(5)") ; (*val it = IntV 15 : plcVal*)
+
+(* casos de excessao:
+Impossible
+entrada (fromString "!1") ;
+NotAFunc
+entrada (fromString "var x = 0; x(1)") ;
+TLEmptySeq
+entrada (fromString "tl ([Int] [])") ;
+HDEmptySeq
+entrada (fromString "hd ([Int] [])") ;
+ValueNotFoundInMatch
+entrada (fromString "match x with | 1 -> 0 | 2 -> 1 end") [("x", IntV 0)];
+ *)
+
+(*entrada (fromString "match x with | 0 -> 1 | _ -> -1 end") [("x", IntV 0)];(*val it = IntV 1 : plcVal*) *)
+
+*)
+
+
 

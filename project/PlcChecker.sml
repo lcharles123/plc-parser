@@ -42,15 +42,8 @@ exception OpNonList
 
 fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml *)
   | teval (ConB _) (environ: plcType env) = BoolT
-  | teval (Var var) (environ: plcType env) = 
-    let
-        fun useLookup env v = 
-            lookup env v
-    in 
-        useLookup environ var
-        handle SymbolNotFound => raise SymbolNotFound 
-    end
-  | teval (ESeq seq) (environ: plcType env) = 
+  | teval (Var var) (environ: plcType env) = ( (lookup environ var) handle SymbolNotFound => raise SymbolNotFound )
+  | teval (ESeq seq) (environ: plcType env) =
     let
         fun f (SeqT seqt) = (SeqT seqt)
           | f _ = raise EmptySeq
@@ -76,11 +69,11 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
         val tipoE = teval e environ
     in
         case operador of
-            "hd" => let in (* To avoid  types of rules don't agree *) 
+            "hd" => (
                 case tipoE of
                     SeqT tipo => tipo (*Pois a op hd retorna apenas o primeiro elemento da lista, logo basta retornar seu tipo*)
-                    | _ => raise UnknownType
-            end
+                    | _ => raise UnknownType)
+            
             | "tl" => let in 
                 case tipoE of
                     SeqT tipo => SeqT tipo (*Pois tl retorna uma LISTA com o tail da passada como param, 
@@ -224,19 +217,5 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
     in
         FunT (tipo, tipoE)
     end
- 
-(*Alguns testes:
-teval(fromString "15")[];
-teval(fromString "true")[];
-teval(fromString "()")[];
-teval(fromString "(6,false)[1]")[];
-teval(fromString "([Bool] [])")[];
-teval(fromString "print x; true")[];
-teval(fromString "3::7::t")[];
-teval(fromString "fn (Int x) => -x end")[];
-teval(fromString "var x = 9; x + 1")[];
-teval(fromString "fun f(Int x) = x; f(1)")[];
-teval(fromString "match x with | 0 -> 1 | _ -> -1 end")[];
-teval(fromString "fun rec f(Int n):Int = if n <= 0 then 0 else n + f(n-1); f(5)")[];
-*)
+
 
