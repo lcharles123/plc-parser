@@ -5,7 +5,7 @@ RLWRAP=`which rlwrap`
 main: run
 
 test: lex yacc	
-	$(RLWRAP) sml < testParser.sml
+	$(RLWRAP) sml  testParser.sml
 	# modo iterativo, edite o Makefile e remova ou adicione "<" para alterar, ex.:	sml < testParser.sml
 
 lex: PlcLexer.lex
@@ -15,7 +15,10 @@ yacc: PlcParser.yacc
 	$(YACC) $^ 
 
 run: lex yacc
-	$(RLWRAP) sml < Plc.sml
+	$(RLWRAP) sml < PlcInterp.sml
+	# modo iterativo, edite o Makefile e remova ou adicione "<" para alterar, ex.:	sml < testParser.sml
+run2: lex yacc
+	$(RLWRAP) sml  PlcInterp.sml
 	# modo iterativo, edite o Makefile e remova ou adicione "<" para alterar, ex.:	sml < testParser.sml
 
 help:

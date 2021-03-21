@@ -33,8 +33,15 @@ print "Iniciando interpretador...";
 2: checar tipos com teval
 3: avaliar com eval retornando uma string com valor e tipo do resultado, tratar excessoes aqui caso 
 *)
-fun run exp = "rodou fun run";
+fun run exp =
+    let
+        val env = []
+        val expT = teval exp []
+        val expRes = eval exp []
+    in
+        val2string(expRes) ^ " : " ^ type2string(expT)
+    end
 
-run;
+
 
 

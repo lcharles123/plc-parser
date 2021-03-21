@@ -33,7 +33,7 @@ fromString "fun rec f(Int n):Int = if n <= 0 then 0 else n + f(n-1); f(5)";
 
 fromFile ("example.plc");
 
-use "testes/testParserCases.sml";
+use "testParserCases.sml";
 
 (* Try to add a systematic way of using the test cases in
    testParserCases to stress test your parser *)
