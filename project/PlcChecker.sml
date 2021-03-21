@@ -1,3 +1,21 @@
+CM.make("$/basis.cm");
+CM.make("$/ml-yacc-lib.cm");
+
+use "Environ.sml";
+use "Absyn.sml";
+use "PlcParserAux.sml";
+use "PlcParser.yacc.sig";
+use "PlcParser.yacc.sml";
+use "PlcLexer.lex.sml";
+
+use "Parse.sml";
+
+Control.Print.printLength := 1000;
+Control.Print.printDepth  := 1000;
+Control.Print.stringDepth := 1000;
+
+open PlcFrontEnd;
+
 (* PlcChecker *)
 (*Este módulo é responsável pela checagem de tipos. 
 Ele deve prover uma função teval : expr -> plcType env -> plcType que,
@@ -52,9 +70,8 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
     end
   | teval (ESeq seq) (environ: plcType env) = 
     let
-        fun f seq = case seq of
-            SeqT seqt => SeqT seqt
-            | f _ => raise EmptySeq
+        fun f (SeqT seqt) = (SeqT seqt)
+          | f _ = raise EmptySeq
     in 
         f seq
     end
@@ -77,28 +94,32 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
         val tipoE = teval e environ
     in
         case operador of
-            "hd" => let in
+            "hd" => let in (* To avoid  types of rules don't agree *) 
                 case tipoE of
                     SeqT tipo => tipo (*Pois a op hd retorna apenas o primeiro elemento da lista, logo basta retornar seu tipo*)
-                | _ => raise UnknownType
-                end
-            | "tl" => let in
+                    | _ => raise UnknownType
+            end
+            | "tl" => let in 
                 case tipoE of
                     SeqT tipo => SeqT tipo (*Pois tl retorna uma LISTA com o tail da passada como param, 
                     logo devemos retornar o tipo como lista do msm tipo da recebida como param. *)
-                | _ => raise UnknownType
-                end
+                    | _ => raise UnknownType              
+            end           
             | "ise" => let in
                 case tipoE of
                     SeqT tipo => BoolT (* ise sempre é do tipo bool, no caso BoolT*)
-                | _ => raise UnknownType
-                end
-            | "print" => ListT []
-            | "!" => case tipoE of BoolT => BoolT 
-                        | _ => raise UnknownType
-            | "-" => case tipoE of IntT => IntT 
-                        | _ => raise UnknownType
-            | _ => raise UnknownType (*Operador inválido*)
+                    | _ => raise UnknownType
+            end
+            | "print" => let in ListT [] end
+            | "!" => let in 
+                case tipoE of BoolT => BoolT 
+                   | _ => raise UnknownType
+            end
+            | "-" => let in 
+                case tipoE of IntT => IntT 
+                    | _ => raise UnknownType
+            end 
+            | _ => raise UnknownType  
     end
   | teval (Prim2(operador, e1, e2)) (environ: plcType env) =
     (*Avalia e1 e e2*)
@@ -123,16 +144,19 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
             | "<=" => if tipoE1 = IntT andalso tipoE2 = tipoE1 then BoolT else raise UnknownType
             (*Operador && requer operandos do tipo BoolT*)
             | "&&" => if tipoE1 = BoolT andalso tipoE2 = tipoE1 then BoolT else raise UnknownType
-            | "::" => case (tipoE1, tipoE2) of
-                    (BoolT, ListT []) => SeqT BoolT (*Está se criando uma seq do tipo de e1 - nesse caso BoolT*)
-                | (IntT, ListT []) => SeqT IntT (*Está se criando uma seq do tipo de e1 - nesse caso IntT*)
-                | (ListT tipoList, ListT []) => SeqT (ListT tipoList) (*Está se adicionando uma lista dentro de outra vazia - logo retorna-se tipo seq da lista do tipo x*)
-                (*Nos casos abaixo verifica-se se o elemento é do tipo da Seq, se sim - retorna tipo Seq do tipo do elemento, senão - raise*)
-                | (BoolT, SeqT tipoS) => if tipoS = BoolT then SeqT BoolT else raise NotEqTypes 
-                | (IntT, SeqT tipoS) => if tipoS = IntT then SeqT IntT else raise NotEqTypes
-                (*No caso abaixo está se adicionando uma lista numa seq de lista, então verificar se o tipo da lista é compativel com as listas de seq*)
-                | (ListT tipoList, SeqT tipoS) => if ListT tipoList = tipoS then SeqT tipoS else raise NotEqTypes 
-                | _ => raise UnknownType
+            | "::" => 
+                let in
+                    case (tipoE1, tipoE2) of
+                        (BoolT, ListT []) => SeqT BoolT (*Está se criando uma seq do tipo de e1 - nesse caso BoolT*)
+                    | (IntT, ListT []) => SeqT IntT (*Está se criando uma seq do tipo de e1 - nesse caso IntT*)
+                    | (ListT tipoList, ListT []) => SeqT (ListT tipoList) (*Está se adicionando uma lista dentro de outra vazia - logo retorna-se tipo seq da lista do tipo x*)
+                    (*Nos casos abaixo verifica-se se o elemento é do tipo da Seq, se sim - retorna tipo Seq do tipo do elemento, senão - raise*)
+                    | (BoolT, SeqT tipoS) => if tipoS = BoolT then SeqT BoolT else raise NotEqTypes 
+                    | (IntT, SeqT tipoS) => if tipoS = IntT then SeqT IntT else raise NotEqTypes
+                    (*No caso abaixo está se adicionando uma lista numa seq de lista, então verificar se o tipo da lista é compativel com as listas de seq*)
+                    | (ListT tipoList, SeqT tipoS) => if ListT tipoList = tipoS then SeqT tipoS else raise NotEqTypes 
+                    | _ => raise UnknownType
+                end
             | ";" => tipoE2
             | _ => raise UnknownType
     end
@@ -157,7 +181,7 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
   | teval (List list) (environ: plcType env) =
     let
         fun verificaLista (head::[]) = (teval head environ)::[] (*percorre toda a lista*)
-          | verificaLista (head::tail) = (teval heal environ)::(verificaLista tail)
+          | verificaLista (head::tail) = (teval head environ)::(verificaLista tail)
           | verificaLista _ = []
     in
         ListT (verificaLista list)
@@ -169,7 +193,7 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
           | capturaElemento (index, (head::tail)) = if index = 1 then head else capturaElemento (index - 1, tail)
     in
         case (teval e environ) of
-            ListT lsit => capturaElemento(indice, list)
+            ListT list => capturaElemento(indice, list)
             | _ => raise OpNonList (*Tentativa de acessar um elemento em uma expressão que não é uma lista*)
     end
   | teval (Anon(tipo, param, e)) (environ: plcType env) = 
@@ -186,6 +210,6 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
 
  
 (*val para test*)
-val teste = IntT;
-fun teval exp plctype envi = teste; (*TODO*)
+(*val teste = IntT;
+fun teval exp plctype envi = teste; (*TODO*)*)
 
