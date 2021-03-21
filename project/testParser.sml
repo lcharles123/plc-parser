@@ -5,6 +5,7 @@ CM.make("$/ml-yacc-lib.cm");
 
 use "Environ.sml";
 use "Absyn.sml";
+use "PlcChecker.sml";
 use "PlcParserAux.sml";
 use "PlcParser.yacc.sig";
 use "PlcParser.yacc.sml";
