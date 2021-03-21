@@ -1,21 +1,3 @@
-CM.make("$/basis.cm");
-CM.make("$/ml-yacc-lib.cm");
-
-use "Environ.sml";
-use "Absyn.sml";
-use "PlcParserAux.sml";
-use "PlcParser.yacc.sig";
-use "PlcParser.yacc.sml";
-use "PlcLexer.lex.sml";
-
-use "Parse.sml";
-
-Control.Print.printLength := 1000;
-Control.Print.printDepth  := 1000;
-Control.Print.stringDepth := 1000;
-
-open PlcFrontEnd;
-
 (* PlcChecker *)
 (*Este módulo é responsável pela checagem de tipos. 
 Ele deve prover uma função teval : expr -> plcType env -> plcType que,
@@ -171,6 +153,46 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
             if tipoE1 = tipoE2 then tipoE1 else raise DiffBrTypes (*DiffBrTypes - Tipos diferentes dos caminhos de if*)
         else raise IfCondNotBool (*Condição do if não é bool*)
     end
+  | teval (Match(e1, matchList)) (environ: plcType env) =
+    let
+        val tipoHdElement = teval (#2 (hd matchList)) environ
+        val tipoE1 = teval e1 environ
+        (*Vai passando pela matchlist e assegurando que a expressão a ser matched é igual às condições *)
+        fun buscaMatchList (Match(e1, head::[])) (environ: plcType env) =
+            let in
+                case head of
+                    (SOME teste1, teste2) => 
+                        if ((teval teste2 environ) = tipoHdElement) andalso (tipoE1 = (teval teste1 environ)) then
+                            teval teste2 environ  
+                        else 
+                            if ((teval teste2 environ) = tipoHdElement) then
+                                raise MatchCondTypesDiff
+                            else 
+                                raise MatchResTypeDiff
+                    | (NONE, teste2) => 
+                        if (teval teste2 environ) = tipoHdElement then 
+                            tipoHdElement 
+                        else 
+                            raise MatchResTypeDiff
+            end
+        | buscaMatchList (Match(e1, head::tail)) (environ: plcType env) =        
+            let in
+                case head of
+                    (SOME teste1, teste2) => 
+                        if ((teval teste2 environ) = tipoHdElement) andalso (tipoE1 = (teval teste1 environ)) then
+                            buscaMatchList (Match(e1, tail)) environ 
+                        else 
+                            if ((teval teste2 environ) = tipoHdElement) then
+                                raise MatchCondTypesDiff
+                            else 
+                                raise MatchResTypeDiff
+                    | _ => raise UnknownType (* Como ja foi tratado no caso anterior, agora não existe a opção NONE ...*)
+                    end
+        | buscaMatchList (Match(e1, _)) (environ: plcType env) = raise NoMatchResults
+        | buscaMatchList _ _ = raise UnknownType (*Qualquer outro caso em que se chamar a fun de busca é invalido*) 
+    in
+        buscaMatchList(Match(e1, matchList)) environ
+    end  
   | teval (Call(e1, e2)) (environ: plcType env) =
         let in
             case (teval e1 environ) of
@@ -202,14 +224,19 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
     in
         FunT (tipo, tipoE)
     end
-   
-
-
-
-
-
  
-(*val para test*)
-(*val teste = IntT;
-fun teval exp plctype envi = teste; (*TODO*)*)
+(*Alguns testes:
+teval(fromString "15")[];
+teval(fromString "true")[];
+teval(fromString "()")[];
+teval(fromString "(6,false)[1]")[];
+teval(fromString "([Bool] [])")[];
+teval(fromString "print x; true")[];
+teval(fromString "3::7::t")[];
+teval(fromString "fn (Int x) => -x end")[];
+teval(fromString "var x = 9; x + 1")[];
+teval(fromString "fun f(Int x) = x; f(1)")[];
+teval(fromString "match x with | 0 -> 1 | _ -> -1 end")[];
+teval(fromString "fun rec f(Int n):Int = if n <= 0 then 0 else n + f(n-1); f(5)")[];
+*)
 
