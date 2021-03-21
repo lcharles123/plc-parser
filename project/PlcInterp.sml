@@ -178,33 +178,6 @@ fun eval (ConI n) (env:plcVal env)  = IntV n  (* constantes inteiras -> plcVal i
             |   procurar (var, [] ) env = raise Impossible
         in eval (procurar ((eval exp1 env), listaOpcoes) env) env
         end
-
-
-
-
-
-
-
-(*|   eval (Match(exp1, listaOpcoes)) (env:plcVal env) =  (*case of ; match*)
-        let fun procurar (var, l::[]) env =  (* procura var na lista l*)
-                (case l of
-                    (SOME exp2, exp3) => 
-                        if var = eval exp2 env 
-                        then exp3 
-                        else raise ValueNotFoundInMatch(*lista com unico elemento e nao deu match*)
-                 |  (NONE, exp3) => exp3 )
-                              
-            |   procurar (var, h::t) env = 
-                (case h of
-                    (SOME exp2, exp3) => 
-                        if var = eval exp2 env 
-                        then exp3 
-                        else procurar (var, t) env (*lista com mais de um elemento, procurar no resto*)
-                |   (NONE, exp3) => raise Impossible )
-                              
-            |   procurar (var, [] ) env = raise Impossible
-        in eval (procurar ((eval exp1 env), listaOpcoes) env) env
-        end*)
 |   eval (Call(exp1, exp2)) (env:plcVal env) =  (*aplicar fun*)
         let fun evalArgs (List(h::[])) = [eval h env]
             |   evalArgs (List(h::t)) = [eval h env] @ evalArgs (List t)
