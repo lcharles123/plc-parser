@@ -2,7 +2,7 @@ LEX=ml-lex
 YACC=ml-yacc
 RLWRAP=`which rlwrap`
 
-main: run
+main: plc
 
 test: lex yacc	
 	$(RLWRAP) sml  testParser.sml
@@ -14,12 +14,16 @@ lex: PlcLexer.lex
 yacc: PlcParser.yacc
 	$(YACC) $^ 
 
-run: lex yacc
+interp: lex yacc
 	$(RLWRAP) sml < PlcInterp.sml
 	# modo iterativo, edite o Makefile e remova ou adicione "<" para alterar, ex.:	sml < testParser.sml
-run2: lex yacc
-	$(RLWRAP) sml  PlcInterp.sml
+checker: lex yacc
+	$(RLWRAP) sml < PlcChecker.sml
 	# modo iterativo, edite o Makefile e remova ou adicione "<" para alterar, ex.:	sml < testParser.sml
+plc: lex yacc
+	$(RLWRAP) sml < Plc.sml
+	# modo iterativo, edite o Makefile e remova ou adicione "<" para alterar, ex.:	sml < testParser.sml
+
 
 help:
 	@printf "\n\tLinguagens de Programação - UFMG 2020/2\n"

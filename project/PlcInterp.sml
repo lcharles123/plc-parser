@@ -12,6 +12,8 @@ use "PlcLexer.lex.sml";
 
 use "Parse.sml";
 
+use "PlcChecker.sml";(* Checador de tipos *) 
+
 Control.Print.printLength := 1000;
 Control.Print.printDepth  := 1000;
 Control.Print.stringDepth := 1000;
@@ -164,7 +166,7 @@ fun eval (ConI n) (env:plcVal env)  = IntV n  (* constantes inteiras -> plcVal i
                     (SOME exp2, exp3) => 
                         if var = eval exp2 env 
                         then exp3 
-                        else raise ValueNotFoundInMatch n(*lista com unico elemento e nao deu match*)
+                        else raise ValueNotFoundInMatch (*lista com unico elemento e nao deu match*)
                  |  (NONE, exp3) => exp3 )
                               
             |   procurar (var, h::t) env = 
@@ -212,44 +214,5 @@ fun eval (ConI n) (env:plcVal env)  = IntV n  (* constantes inteiras -> plcVal i
         end
 |   eval (Anon(typ, arg, exp)) (env:plcVal env) = Clos("", arg, exp, env)  ; (* pag 10 da especificacao*)
  
-
-eval (fromString "15") [];(*val it = IntV 15 : plcVal*)
-eval (fromString "true") [];(*val it = BoolV true : plcVal*)
-eval (fromString "()") []; (*val it = ListV [] : plcVal*)
-(*
-eval (fromString "(6,false)[]") [];
-ParseError*)
-eval (fromString "(6,false)[1]") [];(*val it = IntV 6 : plcVal*)
-eval (fromString "([Bool] [])") [];(*val it = SeqV [] : plcVal*)
-eval (fromString "print x; true") [("x", BoolV false)]; (*val it = BoolV true : plcVal*)(*????????????????????*)
-(*
-eval (fromString "3::7::r") []; 
-SymbolNotFound
-*)
-eval (fromString "fn (Int x) => -x end");(*val it = fn : plcVal env -> plcVal*)
-eval (fromString "var x = 9; x + 1") [];(*val it = IntV 10 : plcVal*)
-eval (fromString "fun f(Int x) = x; f(1)") [];(*val it = IntV 1 : plcVal*)
-eval (fromString "match x with | 0 -> 1 | _ -> -1 end") [("x", IntV 0)];(*val it = IntV 1 : plcVal*)
-eval (fromString "if true then 1 else 0") [];(*val it = IntV 1 : plcVal*)
-eval (fromString "true && false") [];(*val it = BoolV false : plcVal*)
-eval (fromString "1+2") [];(*val it = IntV 3 : plcVal*)
-eval (fromString "1-2") [];(*val it = IntV ~1 : plcVal*)
-eval (fromString "1*2") [];(*val it = IntV 2 : plcVal*)
-eval (fromString "1/2") [];(*val it = IntV 0 : plcVal*)
-eval (fromString "fun rec f(Int n):Int = if n <= 0 then 0 else n + f(n-1); f(5)") []; (*val it = IntV 15 : plcVal*)
-
-(* casos de excessao:
-Impossible
-eval (fromString "!1") [];
-NotAFunc
-eval (fromString "var x = 0; x(1)") [];
-TLEmptySeq
-eval (fromString "tl ([Int] [])") [];
-HDEmptySeq
-eval (fromString "hd ([Int] [])") [];
-ValueNotFoundInMatch
-eval (fromString "match x with | 1 -> 0 | 2 -> 1 end") [("x", IntV 0)];
-
- *)
 
 
