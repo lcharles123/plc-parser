@@ -74,26 +74,18 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
                     SeqT tipo => tipo (*Pois a op hd retorna apenas o primeiro elemento da lista, logo basta retornar seu tipo*)
                     | _ => raise UnknownType)
             
-            | "tl" => let in 
+            | "tl" => ( 
                 case tipoE of
                     SeqT tipo => SeqT tipo (*Pois tl retorna uma LISTA com o tail da passada como param, 
                     logo devemos retornar o tipo como lista do msm tipo da recebida como param. *)
-                    | _ => raise UnknownType              
-            end           
-            | "ise" => let in
+                    | _ => raise UnknownType )           
+            | "ise" => (
                 case tipoE of
                     SeqT tipo => BoolT (* ise sempre é do tipo bool, no caso BoolT*)
-                    | _ => raise UnknownType
-            end
-            | "print" => let in ListT [] end
-            | "!" => let in 
-                case tipoE of BoolT => BoolT 
-                   | _ => raise UnknownType
-            end
-            | "-" => let in 
-                case tipoE of IntT => IntT 
-                    | _ => raise UnknownType
-            end 
+                    | _ => raise UnknownType )
+            | "print" => ( ListT [] )
+            | "!" => ( if tipoE = BoolT then BoolT else raise UnknownType )
+            | "-" => ( if tipoE = IntT then IntT else raise UnknownType )
             | _ => raise UnknownType  
     end
   | teval (Prim2(operador, e1, e2)) (environ: plcType env) =
@@ -119,10 +111,9 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
             | "<=" => if tipoE1 = IntT andalso tipoE2 = tipoE1 then BoolT else raise UnknownType
             (*Operador && requer operandos do tipo BoolT*)
             | "&&" => if tipoE1 = BoolT andalso tipoE2 = tipoE1 then BoolT else raise UnknownType
-            | "::" => 
-                let in
+            | "::" => (
                     case (tipoE1, tipoE2) of
-                        (BoolT, ListT []) => SeqT BoolT (*Está se criando uma seq do tipo de e1 - nesse caso BoolT*)
+                      (BoolT, ListT []) => SeqT BoolT (*Está se criando uma seq do tipo de e1 - nesse caso BoolT*)
                     | (IntT, ListT []) => SeqT IntT (*Está se criando uma seq do tipo de e1 - nesse caso IntT*)
                     | (ListT tipoList, ListT []) => SeqT (ListT tipoList) (*Está se adicionando uma lista dentro de outra vazia - logo retorna-se tipo seq da lista do tipo x*)
                     (*Nos casos abaixo verifica-se se o elemento é do tipo da Seq, se sim - retorna tipo Seq do tipo do elemento, senão - raise*)
@@ -130,8 +121,7 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
                     | (IntT, SeqT tipoS) => if tipoS = IntT then SeqT IntT else raise NotEqTypes
                     (*No caso abaixo está se adicionando uma lista numa seq de lista, então verificar se o tipo da lista é compativel com as listas de seq*)
                     | (ListT tipoList, SeqT tipoS) => if ListT tipoList = tipoS then SeqT tipoS else raise NotEqTypes 
-                    | _ => raise UnknownType
-                end
+                    | _ => raise UnknownType )
             | ";" => tipoE2
             | _ => raise UnknownType
     end
@@ -152,47 +142,41 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
         val tipoE1 = teval e1 environ
         (*Vai passando pela matchlist e assegurando que a expressão a ser matched é igual às condições *)
         fun buscaMatchList (Match(e1, head::[])) (environ: plcType env) =
-            let in
-                case head of
-                    (SOME teste1, teste2) => 
-                        if ((teval teste2 environ) = tipoHdElement) andalso (tipoE1 = (teval teste1 environ)) then
-                            teval teste2 environ  
-                        else 
-                            if ((teval teste2 environ) = tipoHdElement) then
-                                raise MatchCondTypesDiff
-                            else 
-                                raise MatchResTypeDiff
-                    | (NONE, teste2) => 
-                        if (teval teste2 environ) = tipoHdElement then 
-                            tipoHdElement 
+            (case head of
+                (SOME teste1, teste2) => 
+                    if ((teval teste2 environ) = tipoHdElement) andalso (tipoE1 = (teval teste1 environ)) then
+                        teval teste2 environ  
+                    else 
+                        if ((teval teste2 environ) = tipoHdElement) then
+                            raise MatchCondTypesDiff
                         else 
                             raise MatchResTypeDiff
-            end
-        | buscaMatchList (Match(e1, head::tail)) (environ: plcType env) =        
-            let in
-                case head of
-                    (SOME teste1, teste2) => 
-                        if ((teval teste2 environ) = tipoHdElement) andalso (tipoE1 = (teval teste1 environ)) then
-                            buscaMatchList (Match(e1, tail)) environ 
+                | (NONE, teste2) => 
+                    if (teval teste2 environ) = tipoHdElement then 
+                        tipoHdElement 
+                    else 
+                        raise MatchResTypeDiff )
+          | buscaMatchList (Match(e1, head::tail)) (environ: plcType env) =        
+            (case head of
+                (SOME teste1, teste2) => 
+                    if ((teval teste2 environ) = tipoHdElement) andalso (tipoE1 = (teval teste1 environ)) then
+                        buscaMatchList (Match(e1, tail)) environ 
+                    else 
+                        if ((teval teste2 environ) = tipoHdElement) then
+                            raise MatchCondTypesDiff
                         else 
-                            if ((teval teste2 environ) = tipoHdElement) then
-                                raise MatchCondTypesDiff
-                            else 
-                                raise MatchResTypeDiff
-                    | _ => raise UnknownType (* Como ja foi tratado no caso anterior, agora não existe a opção NONE ...*)
-                    end
+                            raise MatchResTypeDiff
+                | _ => raise UnknownType )(* Como ja foi tratado no caso anterior, agora não existe a opção NONE ...*)
         | buscaMatchList (Match(e1, _)) (environ: plcType env) = raise NoMatchResults
         | buscaMatchList _ _ = raise UnknownType (*Qualquer outro caso em que se chamar a fun de busca é invalido*) 
     in
         buscaMatchList(Match(e1, matchList)) environ
     end  
   | teval (Call(e1, e2)) (environ: plcType env) =
-        let in
-            case (teval e1 environ) of
-                FunT (tipoParam, tipoRet) => 
-                    if (teval e2 environ) = tipoParam then tipoRet else raise CallTypeMisM (*passando pra uma chamada de função um tipo diferente do qual ela suporta*)
-               | _ => raise NotFunc (*chamando algo que não é uma função*)
-        end
+        (case (teval e1 environ) of
+            FunT (tipoParam, tipoRet) => 
+                if (teval e2 environ) = tipoParam then tipoRet else raise CallTypeMisM (*passando pra uma chamada de função um tipo diferente do qual ela suporta*)
+           | _ => raise NotFunc ) (*chamando algo que não é uma função*)
   | teval (List list) (environ: plcType env) =
     let
         fun verificaLista (head::[]) = (teval head environ)::[] (*percorre toda a lista*)

@@ -26,7 +26,7 @@ open PlcFrontEnd;
 exception Impossible
 exception HDEmptySeq
 exception TLEmptySeq
-exception ValueNotFoundInMatch
+exception NoMatchResults
 exception NotAFunc
 
 
@@ -166,7 +166,7 @@ fun eval (ConI n) (env:plcVal env)  = IntV n  (* constantes inteiras -> plcVal i
                     (SOME exp2, exp3) => 
                         if var = eval exp2 env 
                         then exp3 
-                        else raise ValueNotFoundInMatch (*lista com unico elemento e nao deu match*)
+                        else raise NoMatchResults (*lista com unico elemento e nao deu match*)
                  |  (NONE, exp3) => exp3 )
                               
             |   procurar (var, h::t) env = 
