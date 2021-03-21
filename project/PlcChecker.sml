@@ -160,8 +160,25 @@ fun teval (ConI _) (environ: plcType env) = IntT (* env definido em Environ.sml 
           | verificaLista (head::tail) = (teval heal environ)::(verificaLista tail)
           | verificaLista _ = []
     in
-      ListT (verificaLista list)
+        ListT (verificaLista list)
+    end 
+  | teval (Item (indice, e)) (environ: plcType env) =
+    let
+        fun capturaElemento (index, []) = raise ListOutOfRange
+          | capturaElemento (index, (head::[])) = if index = 1 then head else raise ListOutOfRange
+          | capturaElemento (index, (head::tail)) = if index = 1 then head else capturaElemento (index - 1, tail)
+    in
+        case (teval e environ) of
+            ListT lsit => capturaElemento(indice, list)
+            | _ => raise OpNonList (*Tentativa de acessar um elemento em uma expressão que não é uma lista*)
     end
+  | teval (Anon(tipo, param, e)) (environ: plcType env) = 
+    let
+        val tipoE = teval e ((param, tipo)::environ)
+    in
+        FunT (tipo, tipoE)
+    end
+   
 
 
 
