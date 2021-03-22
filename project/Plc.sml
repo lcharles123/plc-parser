@@ -25,8 +25,6 @@ Control.Print.stringDepth := 1000;
 
 open PlcFrontEnd;
 
-print "Iniciando interpretador...";
-
 (*run : expr -> string
  run faz o sequitne:
 1: obter a sintaxe abstrata usando fromString ; fromFile
@@ -105,46 +103,7 @@ teval (fromString "match x with | 0 -> 1 | _ -> -1 end") [("x", IntV 0)];(*val i
 (*
 usar ((fromString "15") ou (fromFile "arquivo.plc"))
 *)
-fun entrada str = print(run str);
-
-
-entrada (fromString "15") ;(*val it = IntV 15 : plcVal*)
-entrada (fromString "true") ;(*val it = BoolV true : plcVal*)
-entrada (fromString "()") ; (*val it = ListV [] : plcVal*)
-entrada (fromString "(6,false)");
-entrada (fromString "(6,false)[1]") ;(*val it = IntV 6 : plcVal*)
-entrada (fromString "([Bool] [])") ;(*val it = SeqV [] : plcVal*)
-entrada (fromString "print 1; true"); (*val it = BoolV true : plcVal*)
-
-entrada (fromString "fn (Int x) => -x end");(*val it = fn : plcVal env -> plcVal*)
-entrada (fromString "var x = 9; x + 1") ;(*val it = IntV 10 : plcVal*)
-entrada (fromString "fun f(Int x) = x; f(1)") ;(*val it = IntV 1 : plcVal*)
-entrada (fromString "match x with | 0 -> 1 | _ -> -1 end") ;(*val it = IntV 1 : plcVal*)
-entrada (fromString "if true then 1 else 0") ;(*val it = IntV 1 : plcVal*)
-entrada (fromString "true && false") ;(*val it = BoolV false : plcVal*)
-entrada (fromString "1+2") ;(*val it = IntV 3 : plcVal*)
-entrada (fromString "1-2") ;(*val it = IntV ~1 : plcVal*)
-entrada (fromString "1*2") ;(*val it = IntV 2 : plcVal*)
-entrada (fromString "1/2") ;(*val it = IntV 0 : plcVal*)
-entrada (fromString "fun rec f(Int n):Int = if n <= 0 then 0 else n + f(n-1); f(5)") ; (*val it = IntV 15 : plcVal*)
-
-(* casos de Excecao:*)
-(*Impossible*)
-entrada (fromString "!1") ;
-(*NotAFunc*)
-entrada (fromString "var x = 0; x(1)") ;
-(*TLEmptySeq*)
-entrada (fromString "tl ([Int] [])") ;
-(*HDEmptySeq*)
-entrada (fromString "hd ([Int] [])") ;
-(*ValueNotFoundInMatch*)
-entrada (fromString "match x with | 1 -> 0 | 2 -> 1 end");
-(*SymbolNotFound*)
-entrada (fromString "3::7::r") ; 
-
-
-(* testes do testParserCases.sml *)
-
+print "\n\nInterpretador Iniciado...\n\n";
 
 
 

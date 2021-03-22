@@ -20,25 +20,21 @@ if then else
 fn fun hd tl ise matc print rec var with end _ 
 :: [] +  -  *  /  < <= && = != ! ()
 
-
 O trabalho foi feito usando ferramentas para geração automática de parsers: ml-lex e ml-yacc, são implementações SML que vem junto com o smlnj.
 O código da implementação se encontra nos arquvos PlcLexer.lex e PlcLexer.yacc, que foram usados para gerar outros arquivos usados no parser. 
 
-A partir do esqueleto do codigo, na segunda parte do trabalho foram feitas modificacoes em tres arquivos: PlcChecker.sml , PlcInterp.sml e Plc.sml , este ultimo eh o arquivo principal que carrega todos os outros e possui a funcao run : expr -> string que toma um valor do tipo abstrato, faz a checagem de tipos com tval definida em PlcChecker.sml e interpreta com eval definida em PlcInterp.sml. retornando o valor nas sintaxes definidas em Absyn.
-
 Pode-se entrar com codigo direto em run usando outra funcao que transforma uma string em sintaxe abstrata como fromString : string -> expr ou fromFile : string -> expr 
 
+Essa segunda parte do trabalho consiste em construir duas funcoes: 
+ - teval em PlcChecker.sml checa a concordancia de tipos da AST 
+ - eval: em PlcInterp.sml avalia e retorna um resultado de comandos em AST, dado que os tipos estao corretos.
+
+Para usa-las eh preciso gerar a AST, pode ser feito atraves das funcoes fromString ou fromFile
 
 
+Para utilizar o programa basta usar o makefile incluso, ao digitar make sera exibida a lista de opcoes. 
 
-
-
-Para utilizar o código basta usar o makefile incluso. Ele executará o arquivo Plc.sml que ira carregar todas as dependencias e abrir o ambiente do interpretador
-
-
-
-
-Executando make na pasta do projeto sera executado o interpretador completo.
+Foram incluidos para a segunda parte os testes em testParseCases.sml e alguns da especificacao. Pode-se executa-los atraves de make test
 
 
 
