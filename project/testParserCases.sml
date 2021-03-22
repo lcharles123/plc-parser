@@ -13,6 +13,17 @@ fun teste (vet, n) =
     end)
     handle ParseError => print "Lidando com parser error!\n";
     
+fun testeInterp (vet, n, f) = 
+    (let 
+        val teste = (fn (a,_) => a ) (List.nth(vet, n))
+        val testeAbs = (fn (_,b) => b ) (List.nth(vet, n))
+        val res = f testeAbs
+    in
+        print ("Entrada: "^Int.toString n^", teste: "^ teste ^", resultado: "^ res ^"\n")
+
+    end)
+    handle ParseError => print "Lidando com parser error!\n";
+    
 
 
 

@@ -43,8 +43,7 @@ fun run exp =
         
     in
         val2string(resV) ^ " : " ^ type2string(resT) ^ " \n"
-    end) (*handle SymbolNotFound => let val p = print ("ERROR: One or more symbols are not defined in expression evaluation.") in raise SymbolNotFound end*)
-    
+    end)
     handle EmptySeq => "ERRO no Checker: EmptySeq: A sequência de entrada não contém nenhum elemento " 
     |   UnknownType => "ERRO no Checker: UnknownType: Excecao de UnknownType "
     |   NotEqTypes => "ERRO no Checker: NotEqTypes: Comparacao de tipos diferentes "

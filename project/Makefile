@@ -23,7 +23,9 @@ checker: lex yacc
 plc: lex yacc
 	$(RLWRAP) sml Plc.sml
 	# modo iterativo, edite o Makefile e remova ou adicione "<" para alterar, ex.:	sml < Plc.sml
-
+testi: lex yacc
+	$(RLWRAP) sml < testInterp.sml
+	# modo iterativo, edite o Makefile e remova ou adicione "<" para alterar, ex.:	sml < PlcInterp.sml
 
 help:
 	@printf "\n\tLinguagens de Programação - UFMG 2020/2\n"
@@ -34,7 +36,7 @@ help:
 	@printf "\t     : executar o interpretador completo (Padrão)\n"
 	@printf "\tlex  : montar .lex\n"
 	@printf "\tyacc : montar .yacc\n"
-	@printf "\ttest : executar testes\n"
+	@printf "\ttesti: executar testes interpretador\n"
 	@printf "\thelp : mostrar esta ajuda\n\n"
 
 	
