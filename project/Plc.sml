@@ -144,6 +144,11 @@ entrada (fromString "match x with | 1 -> 0 | 2 -> 1 end");
 entrada (fromString "3::7::r") ; 
 
 
+(* testes do testParserCases.sml *)
+
+
+
+
 
 
 
