@@ -116,7 +116,7 @@ entrada (fromString "(6,false)");
 entrada (fromString "(6,false)[1]") ;(*val it = IntV 6 : plcVal*)
 entrada (fromString "([Bool] [])") ;(*val it = SeqV [] : plcVal*)
 entrada (fromString "print 1; true"); (*val it = BoolV true : plcVal*)
-entrada (fromString "3::7::r") ; (*SymbolNotFound*)
+
 entrada (fromString "fn (Int x) => -x end");(*val it = fn : plcVal env -> plcVal*)
 entrada (fromString "var x = 9; x + 1") ;(*val it = IntV 10 : plcVal*)
 entrada (fromString "fun f(Int x) = x; f(1)") ;(*val it = IntV 1 : plcVal*)
@@ -140,6 +140,8 @@ entrada (fromString "tl ([Int] [])") ;
 entrada (fromString "hd ([Int] [])") ;
 (*ValueNotFoundInMatch*)
 entrada (fromString "match x with | 1 -> 0 | 2 -> 1 end");
+(*SymbolNotFound*)
+entrada (fromString "3::7::r") ; 
 
 
 

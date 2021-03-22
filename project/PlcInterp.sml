@@ -35,27 +35,13 @@ exception NotAFunc
 (* entrada: expr da secao 4.3 da especificacao, ie: (ConI 15) -> (IntV 15)*)
 (* de acordo com secao 3.3 devemos transformar expr em PlcVal  *)
 (* expr -> plcValue  pag 10 projeto.pdf *)
-(*  
-ConI 15
-ConB true
-List []
-List [ConI 6; ConB false]
-Item (1, List [ConI 6; ConB false])
-ESeq (SeqT BoolT)
-Prim2 (";", Prim1 ("print", ConI 27), ConB true)
-Prim1 ("print", ConI 27)
-Prim2 ("::", ConI 3, Prim2 ("::", ConI 4, Prim2 ("::", ConI 5, ESeq (SeqT IntT))))
-Anon (IntT, "x", Prim1(-", Var "x"))
-Let ("x", ConI 9, Prim2 ("+", Var "x", ConI 1))
-Let ("f", Anon (Int, "x", Var "x"), Call ("f", ConI 1))
 
-*)
 
 fun eval (ConI n) (env:plcVal env)  = IntV n  (* constantes inteiras -> plcVal intV n *) 
 |   eval (ConB n) (env:plcVal env)  = BoolV n (* booleanas *)
 |   eval (ESeq s) (env:plcVal env)  = SeqV []  (* sequencia vazia *)
 |   eval (Var v)  (env:plcVal env)  = (lookup env v) (* variaveis, sao uma lista de tuplas (NAME, valor) *)
-|   eval (Let (var, exp1, exp2)) (env:plcVal env) =  (* igual let de sml, ie. let dec in exp end *) 
+|   eval (Let (var, exp1, exp2)) (env:plcVal env) =  (* igual let de sml, ie. let decl in expr end *) 
         let
             val lista = (var, eval exp1 env) :: env (* desenrolar o operador let*)
         in
@@ -67,7 +53,7 @@ fun eval (ConI n) (env:plcVal env)  = IntV n  (* constantes inteiras -> plcVal i
         in
             eval exp2 recur
         end
-|   eval (Prim1(oper, exp)) (env:plcVal env) =   (* operadores unarios *)
+|   eval (Prim1(oper, exp)) (env:plcVal env) =   (* operadores unarios incluindo a funcao de impressao *)
         let
             val e = eval exp env
         in

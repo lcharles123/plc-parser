@@ -73,11 +73,6 @@ aqui entra os tipos de nao terminais em sintaxe abstrata, ou seja, conforme defi
 
 %%
 
-(*  operator domain: string * (plcType * string) list * plcType * expr * expr
-  operand:         (plcType * string) list * expr * string
-  in expression:
-    makeFun (Args,Expr,"whatttt")*)
-
 (*basta colocar as regras de producao aqui usando os simbolos representados pelos tokens definidos no bloco acima*)
 (*Regras de Produção especificadas na subseção 3.1 da especificação do TP*)
 (*Para o preenchimento deve-se observar os datatypes descritos em Absyn.sml*)
@@ -86,18 +81,8 @@ Prog : Expr (Expr)
 
 Dec1 : VAR NAME EQ Expr PONTVIRG Prog (Let(NAME, Expr, Prog)) 
     |  FUN NAME Args EQ Expr PONTVIRG Prog (Let(NAME, makeAnon(Args, Expr), Prog))(* PONTVIRG Prog adicionado apesar de nao estar na gramatica *) 
-    |  FUN RECUR NAME Args DOISPONTOS Type EQ Expr PONTVIRG Prog (makeFun(NAME, Args, Type, Expr, Prog )) (*tudo ok*)
+    |  FUN RECUR NAME Args DOISPONTOS Type EQ Expr PONTVIRG Prog (makeFun(NAME, Args, Type, Expr, Prog )) 
 
-(*
-
-
-Letrec ("f", IntT, "n", IntT,
-If (Prim2 ("=", Var "n", ConI 0), ConI 0,
-Prim2 ("+", Var "n", Call (Var "f", ...))),
-Call (Var "f", ConI 5))
-
-
-*)
 (*Tipo expr*)
 Expr : AtomicExpr (AtomicExpr)
     |  AppExpr (AppExpr)
